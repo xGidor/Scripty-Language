@@ -36,28 +36,30 @@ Token Lexer::MakeEquals()
 	tok_type.type = EQUALS;
 	Position pos_start = position.copy();
 	Advance();
-
-	if (current_character == '=') {
+	std::string tokstr = "=";
+	if (current_character == '=') { // If next character is also equal sign then its an equals equals token.
 		Advance();
 		tok_type.type = EQUALS_EQUALS;
-		return Token(tok_type.type, "==", pos_start);
+		tokstr = "==";
 	}
 
-	return Token(tok_type.type, "=", pos_start);
+	Token tok = Token(tok_type.type, tokstr, pos_start);
+	tok.pos_end = position.copy();
+	return tok;
 }
 
 Token Lexer::makeString(char qt) {
-	std::string str = "";
+	std::string str = ""; // Set string to empty by def.
 	Position pos_start = position.copy();
-	bool escape_character = false;
-	Advance();
+	bool escape_character = false; // No escape character in string by defauét
+	Advance(); // Advance the lexer
 
 	std::map<char, char> escape_characters = {
-		{'n', '\n'},
-		{'t', '\t'},
-		{'\'', '\''},
-		{'"', '\"'}
-	};
+		{'n', '\n'}, // Newline
+		{'t', '\t'}, // Tab
+		{'\'', '\''}, // 
+		{'"', '\"'} //
+	}; // Escape characters
 
 	while (current_character != '\0' && (current_character != qt || escape_character)) {
 		if (escape_character) {
@@ -66,7 +68,7 @@ Token Lexer::makeString(char qt) {
 		}
 		else {
 			if (current_character == '\\') {
-				escape_character = true;
+				escape_character = true; // If backslash found then escape characters are in string
 				Advance();
 				continue;
 			}
@@ -79,7 +81,9 @@ Token Lexer::makeString(char qt) {
 	}
 
 	Advance();
-	return Token(STRING, str, pos_start);
+	Token tok = Token(STRING, str, pos_start);
+	tok.pos_end = position.copy();
+	return tok;
 }
 
 Position Position::advance(char current_char)
@@ -138,18 +142,18 @@ LexerResult Lexer::MakeTokens()
 	while (current_character != '\0')
 	{
 		switch (current_character)
-		{	
-			case'\'':
-				tokens.push_back(makeString(current_character));
-				break;
-			case'\"':
-				tokens.push_back(makeString(current_character));
-				break;
+		{
 			case ' ':
 				Advance(); // Advance the lexer;
 				break;
 			case '\t':
 				Advance();
+				break;
+			case'\'':
+				tokens.push_back(makeString(current_character)); // Make a string token
+				break;
+			case'\"':
+				tokens.push_back(makeString(current_character));
 				break;
 			case '+':
 				tokens.push_back(Token(PLUS, "+", position)); // Add the specified token type to the tokens list, with the current position.
@@ -187,7 +191,7 @@ LexerResult Lexer::MakeTokens()
 				tokens.push_back(Token(RCURLY, "}", position)); // Add the specified token type to the tokens list
 				break;
 			case '=':
-				tokens.push_back(MakeEquals());
+				tokens.push_back(MakeEquals()); // Make an equals token
 				break;
 			default:
 				if (DIGITS.find(current_character) != std::string::npos) {
