@@ -45,4 +45,11 @@ public:
         : Error(start, end, "Invalid Syntax", details) {}
 };
 
+// When the user attempts to divide by zero.
+class ZeroDivisionError : public Error {
+public:
+    ZeroDivisionError(Position start, Position end, std::string details)
+        : Error(start, end, "Division by Zero is not allowed", details) {}
+};
+
 #endif

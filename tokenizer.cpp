@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "tokenizer.hpp"
+#include <map>
 
 // Token Constructor
 Token::Token(std::string type_, std::string value_, Position pos_start)
@@ -27,6 +28,58 @@ Lexer::Lexer(std::string fn_, std::string text_)
 	position = Position(-1, 0, -1, fn, text); // Use the default position for Lexer constructor.
 	current_character = '\0'; // Use a null character for the constructor.
 	Advance(); // Advance to the 0th character in the text line.
+}
+
+Token Lexer::MakeEquals()
+{
+	Token tok_type;
+	tok_type.type = EQUALS;
+	Position pos_start = position.copy();
+	Advance();
+
+	if (current_character == '=') {
+		Advance();
+		tok_type.type = EQUALS_EQUALS;
+		return Token(tok_type.type, "==", pos_start);
+	}
+
+	return Token(tok_type.type, "=", pos_start);
+}
+
+Token Lexer::makeString(char qt) {
+	std::string str = "";
+	Position pos_start = position.copy();
+	bool escape_character = false;
+	Advance();
+
+	std::map<char, char> escape_characters = {
+		{'n', '\n'},
+		{'t', '\t'},
+		{'\'', '\''},
+		{'"', '\"'}
+	};
+
+	while (current_character != '\0' && (current_character != qt || escape_character)) {
+		if (escape_character) {
+			str += escape_characters[current_character];
+			escape_character = false;
+		}
+		else {
+			if (current_character == '\\') {
+				escape_character = true;
+				Advance();
+				continue;
+			}
+			else {
+				str += current_character;
+			}
+		}
+		Advance();
+		escape_character = false;
+	}
+
+	Advance();
+	return Token(STRING, str, pos_start);
 }
 
 Position Position::advance(char current_char)
@@ -86,6 +139,12 @@ LexerResult Lexer::MakeTokens()
 	{
 		switch (current_character)
 		{	
+			case'\'':
+				tokens.push_back(makeString(current_character));
+				break;
+			case'\"':
+				tokens.push_back(makeString(current_character));
+				break;
 			case ' ':
 				Advance(); // Advance the lexer;
 				break;
@@ -127,6 +186,9 @@ LexerResult Lexer::MakeTokens()
 			case '}':
 				tokens.push_back(Token(RCURLY, "}", position)); // Add the specified token type to the tokens list
 				break;
+			case '=':
+				tokens.push_back(MakeEquals());
+				break;
 			default:
 				if (DIGITS.find(current_character) != std::string::npos) {
 					tokens.push_back(MakeNumber()); // Add the number token to the tokens list;
@@ -147,4 +209,3 @@ LexerResult Lexer::MakeTokens()
 	LexerResult Result(tokens, NoneError); // Use a NoneError error class indicating that there were no errors during runtime.
 	return Result; // Return the tokens and the results to the main.cpp script.
 }
-

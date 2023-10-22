@@ -7,6 +7,7 @@
 
 
 // Token types and Digits
+const std::string IDENTIFIER = "IDENTIFIER";
 const std::string DIGITS = "0123456789";
 const std::string INT = "INT";
 const std::string FLOAT = "FLOAT";
@@ -16,12 +17,31 @@ const std::string MINUS = "MINUS";
 const std::string MUL = "MULTIPLY";
 const std::string DIV = "DIVIDE";
 const std::string POW = "POWER";
+const std::string EQUALS = "EQUALS";
+const std::string NOT_EQUALS = "NOT_EQUALS";
+const std::string EQUALS_EQUALS = "EQUALS_EQUALS";
+const std::string LESS_THAN = "LESS_THAN";
+const std::string GREATER_THAN = "GREATER_THAN";
+const std::string LT_EQUALS = "LESS_THAN_OR_EQUALS";
+const std::string GT_EQUALS = "GREATER_THAN_OR_EQUALS";
 const std::string LPAREN = "LEFT_PARENTHESIS";
 const std::string RPAREN = "RIGHT_PARENTHESIS";
 const std::string LCURLY = "LEFT_CURLYBRACKET";
 const std::string RCURLY = "RIGHT_CURLYBRACKET";
 const std::string EOFILE = "END_OF_FILE";
 
+const std::string KEYWORD[] = {
+	"let",
+	"if",
+	"else",
+	"elif",
+	"function",
+	"break",
+	"return",
+	"for",
+	"while",
+	"continue"
+};
 
 //Define the Token struct
 class Token
@@ -63,6 +83,9 @@ public:
 	void Advance();
 	LexerResult MakeTokens();
 	Token MakeNumber();
+	Token MakeID();
+	Token MakeEquals();
+	Token makeString(char qt);
 };
 
 

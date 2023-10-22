@@ -35,6 +35,11 @@ public:
         n["value"] = value; // The value of the number node
         return n; // return the n (number) node
     }
+
+    NumberNode add(const NumberNode& other) const;
+    NumberNode subtract(const NumberNode& other) const;
+    NumberNode multiply(const NumberNode& other) const;
+    NumberNode divide(const NumberNode& other) const;
 };
 
 class UnaryOpNode : public ASTNode {
