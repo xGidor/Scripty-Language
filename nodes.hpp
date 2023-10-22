@@ -10,6 +10,19 @@ public:
     virtual json serialize() const = 0;
 };
 
+class StringNode : public ASTNode {
+    std::string value;
+
+    StringNode(std::string text);
+
+    json serialize() const override {
+        json s;
+        s["type"] = "String";
+        s["value"] = value;
+        return s;
+    }
+};
+
 class NumberNode : public ASTNode { // Inherit the ASTNode class
 public:
     float value; // The value of the number node.
@@ -34,8 +47,8 @@ public:
     json serialize() const override {
         json una;
         una["type"] = "UnaryOperation";
-        una["operator"] = op.type;
-        una["node"] = op_node->serialize();
+        una["operator"] = op.type; // operator token
+        una["node"] = op_node->serialize(); // node to operate on, usually NumberNode
         return una;
     }
 };

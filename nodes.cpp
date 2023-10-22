@@ -1,5 +1,10 @@
-
+#include <string>
 #include "nodes.hpp"
+
+StringNode::StringNode(std::string text)
+{
+	value = text;
+}
 
 NumberNode::NumberNode(float number) {
 	value = number;
