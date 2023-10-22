@@ -18,6 +18,7 @@ public:
     // Function to advance the position
     Position advance(char current_char='\0');
 
+    // Default value constructor for Position.
     Position() : idx(-1), ln(0), col(-1), fn(""), ftxt("") {}
 
     // Function to create a copy of the position

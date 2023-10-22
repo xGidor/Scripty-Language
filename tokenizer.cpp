@@ -7,14 +7,14 @@
 Token::Token(std::string type_, std::string value_, Position pos_start)
 {
     value = value_;
-    type = type_;
-    if (pos_start.idx != -1) {
-        this->pos_start = pos_start.copy();
-        this->pos_end = pos_start.copy();
+    type = type_; 
+    if (pos_start.idx != -1) { // Check if the position is vaild
+        this->pos_start = pos_start.copy(); // Copy the start position
+        this->pos_end = pos_start.copy(); // Copy the start position to the end position
         this->pos_end.advance('\0');
     }
 
-    if (pos_end.idx != -1) {
+    if (pos_end.idx != -1) { // Check if the position is vaild
         this->pos_end = pos_end;
     }
 }
@@ -24,9 +24,9 @@ Lexer::Lexer(std::string fn_, std::string text_)
 {
 	fn = fn_;
 	text = text_;
-	position = Position(-1, 0, -1, fn, text);
-	current_character = NULL;
-	Advance(); // Advance to the 0th character in the text.
+	position = Position(-1, 0, -1, fn, text); // Use the default position for Lexer constructor.
+	current_character = '\0'; // Use a null character for the constructor.
+	Advance(); // Advance to the 0th character in the text line.
 }
 
 Position Position::advance(char current_char)
@@ -34,7 +34,7 @@ Position Position::advance(char current_char)
 	idx++;
 	col++;
 
-	if (current_char == '\n') {
+	if (current_char == '\n') { // If we encounter a new line set the collumn to 0 and increase the line count.
 		ln++;
 		col = 0;
 	}
@@ -46,7 +46,7 @@ Position Position::advance(char current_char)
 void Lexer::Advance()
 {
 	position.advance(current_character);
-	current_character = (position.idx < text.length()) ? text[position.idx] : '\0';
+	current_character = (position.idx < text.length()) ? text[position.idx] : '\0'; 
 }
 
 
@@ -140,15 +140,15 @@ LexerResult Lexer::MakeTokens()
 		{	
 			Position start = position.copy();
 			Advance();
-			Error err = IllegalCharacterError(start, position, "Got unexpected token at: ");
+			Error err = IllegalCharacterError(start, position, "Got unexpected token at: "); // Construct an error for an illegal character during token creation.
 			LexerResult Result(tokens, err);
 			return Result; // return no tokens as we got an error
 		}
 	};
-	tokens.push_back(Token(EOFILE, "\0", position));
-	Position start = position.copy();
+	tokens.push_back(Token(EOFILE, "\0", position)); // Add the End of File token to the tokens vector.
+	Position start = position.copy(); 
 	NoError NoneError(start,position, "Success.");
-	LexerResult Result(tokens, NoneError);
-	return Result;
+	LexerResult Result(tokens, NoneError); // Use a NoneError error class indicating that there were no errors during runtime.
+	return Result; // Return the tokens and the results to the main.cpp script.
 }
 

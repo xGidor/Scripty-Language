@@ -128,10 +128,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="nodes.cpp" />
+    <ClCompile Include="parser.cpp" />
     <ClCompile Include="tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="errors.hpp" />
+    <ClInclude Include="nodes.hpp" />
     <ClInclude Include="position.hpp" />
     <ClInclude Include="tokenizer.hpp" />
   </ItemGroup>

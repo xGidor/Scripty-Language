@@ -14,7 +14,7 @@ const std::string STRING = "STRING";
 const std::string PLUS = "PLUS";
 const std::string MINUS = "MINUS";
 const std::string MUL = "MULTIPLY";
-const std::string DIV = "DIVINE";
+const std::string DIV = "DIVIDE";
 const std::string POW = "POWER";
 const std::string LPAREN = "LEFT_PARENTHESIS";
 const std::string RPAREN = "RIGHT_PARENTHESIS";
@@ -24,15 +24,15 @@ const std::string EOFILE = "END_OF_FILE";
 
 
 //Define the Token struct
-struct Token
+class Token
 {
 public:
 	std::string type;
 	std::string value;
 	Position pos_start;
 	Position pos_end;
-
-	Token(std::string type_, std::string value_, Position pos_start);
+	Token() {} // Add a default constructor so Token can be used with Node classes
+	Token(std::string type_, std::string value_, Position pos_start); 
 
 	friend std::ostream& operator<<(std::ostream& os, const Token& token) {
 		os << "Token { Type: " << token.type << ", Value: '" << token.value << "' }";

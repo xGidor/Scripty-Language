@@ -19,6 +19,12 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Source Files\utils\nodes">
+      <UniqueIdentifier>{ec76dd82-4698-4424-b0a1-9c733bf84fcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utils\parser">
+      <UniqueIdentifier>{e07c9731-3f93-4f84-bb01-b0b35d7048bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -26,6 +32,12 @@
     </ClCompile>
     <ClCompile Include="tokenizer.cpp">
       <Filter>Source Files\utils\tokenizer</Filter>
+    </ClCompile>
+    <ClCompile Include="nodes.cpp">
+      <Filter>Source Files\utils\nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="parser.cpp">
+      <Filter>Source Files\utils\parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -36,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="position.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nodes.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
