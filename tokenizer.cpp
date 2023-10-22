@@ -76,7 +76,6 @@ Token Lexer::MakeNumber()
 	}
 }
 
-
 // Default function for making tokens
 LexerResult Lexer::MakeTokens()
 {
@@ -85,64 +84,61 @@ LexerResult Lexer::MakeTokens()
 
 	while (current_character != '\0')
 	{
-		if (current_character == ' ' || current_character == '\t') {
-			Advance(); // Advance the lexer;
-		} 
-		else if (DIGITS.find(current_character) != std::string::npos) {
-			tokens.push_back(MakeNumber()); // Add the number token to the tokens list;
-		}
-		else if (current_character == '+') // Check if the current character of the lexer equals to a specific character.
-		{
-			tokens.push_back(Token(PLUS, "+", position)); // Add the specified token type to the tokens list, using the integer constructor.
-			Advance();
-		}
-		else if (current_character == '-')
-		{
-			tokens.push_back(Token(MINUS, "-", position));
-			Advance();
-		}
-		else if (current_character == '*')
-		{
-			tokens.push_back(Token(MUL, "*", position));
-			Advance();
-		}
-		else if (current_character == '/')
-		{
-			tokens.push_back(Token(DIV, "/", position));
-			Advance(); 
-		}
-		else if (current_character == '(')
-		{
-			tokens.push_back(Token(LPAREN, "(", position));
-			Advance();
-		}
-		else if (current_character == ')')
-		{
-			tokens.push_back(Token(RPAREN, ")", position));
-			Advance(); 
-		}
-		else if (current_character == '{')
-		{
-			tokens.push_back(Token(LCURLY, "{", position));
-			Advance();
-		}
-		else if (current_character == '}')
-		{
-			tokens.push_back(Token(RCURLY, "}", position));
-			Advance();
-		}
-		else if (current_character == '^')
-		{
-			tokens.push_back(Token(POW, "^", position));
-			Advance();
-		}
-		else // If the token is invalid raise error.
+		switch (current_character)
 		{	
-			Position start = position.copy();
-			Advance();
-			Error err = IllegalCharacterError(start, position, "Got unexpected token at: "); // Construct an error for an illegal character during token creation.
-			LexerResult Result(tokens, err);
-			return Result; // return no tokens as we got an error
+			case ' ':
+				Advance(); // Advance the lexer;
+				break;
+			case '\t':
+				Advance();
+				break;
+			case '+':
+				tokens.push_back(Token(PLUS, "+", position)); // Add the specified token type to the tokens list, with the current position.
+				Advance();
+				break;
+			case '-':
+				tokens.push_back(Token(MINUS, "-", position)); // Add the specified token type to the tokens list
+				Advance();
+				break;
+			case '*':
+				tokens.push_back(Token(MUL, "*", position)); // Add the specified token type to the tokens list
+				Advance();
+				break;
+			case '/':
+				tokens.push_back(Token(DIV, "/", position)); // Add the specified token type to the tokens list
+				Advance();
+				break;
+			case '^':
+				tokens.push_back(Token(POW, "^", position)); // Add the specified token type to the tokens list
+				Advance();
+				break;
+			case '(':
+				tokens.push_back(Token(LPAREN, "(", position)); // Add the specified token type to the tokens list
+				Advance();
+				break;
+			case ')':
+				tokens.push_back(Token(RPAREN, ")", position)); // Add the specified token type to the tokens list
+				Advance();
+				break;			
+			case '{':
+				tokens.push_back(Token(LCURLY, "{", position)); // Add the specified token type to the tokens list
+				Advance();
+				break;
+			case '}':
+				tokens.push_back(Token(RCURLY, "}", position)); // Add the specified token type to the tokens list
+				break;
+			default:
+				if (DIGITS.find(current_character) != std::string::npos) {
+					tokens.push_back(MakeNumber()); // Add the number token to the tokens list;
+				}
+				else {
+					Position start = position.copy();
+					Advance();
+					Error err = IllegalCharacterError(start, position, "Got Unexpected Token At: "); // Throw an error for an illegal character during token creation.
+					LexerResult Result(tokens, err);
+					return Result; // return no tokens as we got an error
+				}
+				break;
 		}
 	};
 	tokens.push_back(Token(EOFILE, "\0", position)); // Add the End of File token to the tokens vector.
