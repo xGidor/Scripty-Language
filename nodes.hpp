@@ -1,43 +1,73 @@
-#ifndef  NODES_H
-#define NODES_H
-#include <string>
 #include <iostream>
 #include <vector>
-
+#include "json.hpp" // C++ Json lib
 #include "tokenizer.hpp"
 
-//base Node class
-class Node
-{
+using json = nlohmann::json;
+
+class ASTNode {
 public:
-	Token token;
-	Node() {}
-	Node(Token token);
+    virtual json serialize() const = 0;
 };
 
-// Node used for dealing with Numbers in the language.
-class NumberNode : public Node
-{
+class NumberNode : public ASTNode { // Inherit the ASTNode class
 public:
-	NumberNode(Token token);
+    float value; // The value of the number node.
+
+    NumberNode(float value);
+
+    json serialize() const override {
+        json n;
+        n["type"] = "Number"; // The type of the node
+        n["value"] = value; // The value of the number node
+        return n; // return the n (number) node
+    }
 };
 
-// Node used for binary operations in the language
-class BinaryOperationNode : public Node
-{
+class UnaryOpNode : public ASTNode {
 public:
-	Node left_node;
-	Node right_node;
+    Token op;
+    ASTNode* op_node;
 
-	BinaryOperationNode(Node left_node, Token token, Node right_node);
+    UnaryOpNode(Token operator_token, ASTNode* node);
+
+    json serialize() const override {
+        json una;
+        una["type"] = "UnaryOperation";
+        una["operator"] = op.type;
+        una["node"] = op_node->serialize();
+        return una;
+    }
 };
 
-// Node used for unary operations in the language
-class UnaryOperationNode : public Node
-{
+class BinaryOpNode : public ASTNode {
 public:
-	Node node;
+    Token op; // The operation token, can be plus, minus etc...
+    ASTNode* left; // The left AST node of the operation
+    ASTNode* right; // THe right AST node of the operation
 
-	UnaryOperationNode(Token token, Node node);
+    BinaryOpNode(Token operator_token, ASTNode* leftnode, ASTNode* rightnode);
+
+    json serialize() const override {
+        json bin;
+        bin["type"] = "BinaryOperation"; // The type of the node
+        bin["operator"] = op.type; // OP Token
+        bin["left"] = left->serialize();
+        bin["right"] = right->serialize();
+        return bin; // return the operation node.
+    }
 };
-#endif
+
+
+void asd() {
+    // Create the AST by parsing your programming language
+
+    // Serialize the root node to JSON
+   // ASTNode* root = /* your root node */
+    //json astJson = root->serialize();
+
+    // Print the JSON representation of the AST
+    //std::cout << astJson.dump(2) << std::endl;
+
+  //  return 0;
+}

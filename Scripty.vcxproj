@@ -134,7 +134,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="errors.hpp" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="nodes.hpp" />
+    <ClInclude Include="parser.hpp" />
     <ClInclude Include="position.hpp" />
     <ClInclude Include="tokenizer.hpp" />
   </ItemGroup>

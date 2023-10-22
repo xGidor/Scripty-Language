@@ -1,28 +1,18 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include "tokenizer.hpp"
+
 #include "nodes.hpp"
 
-Node::Node(Token Token)
-{
-	token = Token;
+NumberNode::NumberNode(float number) {
+	value = number;
 }
 
-NumberNode::NumberNode(Token Token)
+UnaryOpNode::UnaryOpNode(Token operator_token, ASTNode* node_)
 {
-	token = Token;
+	op = operator_token;
+	op_node = node_;
 }
 
-UnaryOperationNode::UnaryOperationNode(Token Token, Node Node)
-{
-	token = Token;
-	node = Node;
-}
-
-BinaryOperationNode::BinaryOperationNode(Node leftNode, Token Token, Node rigthNode)
-{
-	left_node = leftNode;
-	token = Token;
-	right_node = rigthNode;
+BinaryOpNode::BinaryOpNode(Token operator_token, ASTNode* leftnode, ASTNode* rightnode) {
+	op = operator_token;
+	left = leftnode;
+	right = rightnode;
 }
