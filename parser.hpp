@@ -3,7 +3,11 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <string>
+
 #include "tokenizer.hpp"
+#include "errors.hpp"
+
 
 class ParseResult {
 
@@ -13,21 +17,17 @@ class Parser
 {
 public:
 
-	std::vector<Token> tokens;
-	int token_index = -1;
+	Lexer lex;
+	Token current_token;
+	Parser(Lexer lexer);
+	
+	//Error error();
+	void Eat(std::string token_type);
+	ASTNode Factor();
+	ASTNode Term();
+	ASTNode Expr();
+	ASTNode parse();
 
-	void Advance();
-	void Reverse(int amount);
-
-	/*
-	Parses a string into AST
-	*/
-	void Parse(std::string text);
-
-	/*
-	Main Entry Point
-	*/
-	void Program();
 	
 };
 

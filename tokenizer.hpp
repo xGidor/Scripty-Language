@@ -29,6 +29,7 @@ const std::string RPAREN = "RIGHT_PARENTHESIS";
 const std::string LCURLY = "LEFT_CURLYBRACKET";
 const std::string RCURLY = "RIGHT_CURLYBRACKET";
 const std::string EOFILE = "END_OF_FILE";
+const std::string TOKEN_ERROR = "INVALID_TOKEN";
 
 const std::string KEYWORD[] = {
 	"let",
@@ -78,12 +79,13 @@ public:
     std::string fn; // Filename
     Position position = Position(-1, 0, -1, fn, text);
 	char current_character = '\0'; // the current character the lexer goes through.
-
+	Lexer();
 	Lexer(std::string fn_, std::string text_);
 	void Advance();
-	LexerResult MakeTokens();
+	Token Get_Next_Token();
+	//LexerResult MakeTokens();
 	Token MakeNumber();
-	Token MakeID();
+	//Token MakeID();
 	Token MakeEquals();
 	Token makeString(char qt);
 };

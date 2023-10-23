@@ -20,7 +20,10 @@ Token::Token(std::string type_, std::string value_, Position pos_start)
     }
 }
 
+
 // Lexer/Tokenizer Constructor
+Lexer::Lexer() { }
+
 Lexer::Lexer(std::string fn_, std::string text_)
 {
 	fn = fn_;
@@ -134,82 +137,94 @@ Token Lexer::MakeNumber()
 }
 
 // Default function for making tokens
-LexerResult Lexer::MakeTokens()
-{
-	// Initialize an empty list of tokens
-	std::vector<Token> tokens;
+//LexerResult Lexer::MakeTokens()
+//{
+//	// Initialize an empty list of tokens
+//	std::vector<Token> tokens;
+//
+//
+//	 = Get_Next_Token();
+//	if (current_token.type == TOKEN_ERROR)
+//	{
+//		Position start = position.copy();
+//		Advance();
+//		Error err = IllegalCharacterError(start, position, "Got Unexpected Token At: "); // Throw an error for an illegal character during token creation.
+//		LexerResult Result(tokens, err);
+//		return Result;
+//	}
+//	tokens.push_back(current_token);
+//
+//	Advance();
+//	NoError NoneError(start, position, "Success.");
+//	LexerResult Result(tokens, NoneError);
+//	tokens.push_back(Token(EOFILE, "\0", position)); // Add the End of File token to the tokens vector.
+//	return Result;
+//}
 
+Token Lexer::Get_Next_Token()
+{
 	while (current_character != '\0')
 	{
-		switch (current_character)
-		{
-			case ' ':
-				Advance(); // Advance the lexer;
-				break;
-			case '\t':
-				Advance();
-				break;
-			case'\'':
-				tokens.push_back(makeString(current_character)); // Make a string token
-				break;
-			case'\"':
-				tokens.push_back(makeString(current_character));
-				break;
-			case '+':
-				tokens.push_back(Token(PLUS, "+", position)); // Add the specified token type to the tokens list, with the current position.
-				Advance();
-				break;
-			case '-':
-				tokens.push_back(Token(MINUS, "-", position)); // Add the specified token type to the tokens list
-				Advance();
-				break;
-			case '*':
-				tokens.push_back(Token(MUL, "*", position)); // Add the specified token type to the tokens list
-				Advance();
-				break;
-			case '/':
-				tokens.push_back(Token(DIV, "/", position)); // Add the specified token type to the tokens list
-				Advance();
-				break;
-			case '^':
-				tokens.push_back(Token(POW, "^", position)); // Add the specified token type to the tokens list
-				Advance();
-				break;
-			case '(':
-				tokens.push_back(Token(LPAREN, "(", position)); // Add the specified token type to the tokens list
-				Advance();
-				break;
-			case ')':
-				tokens.push_back(Token(RPAREN, ")", position)); // Add the specified token type to the tokens list
-				Advance();
-				break;			
-			case '{':
-				tokens.push_back(Token(LCURLY, "{", position)); // Add the specified token type to the tokens list
-				Advance();
-				break;
-			case '}':
-				tokens.push_back(Token(RCURLY, "}", position)); // Add the specified token type to the tokens list
-				break;
-			case '=':
-				tokens.push_back(MakeEquals()); // Make an equals token
-				break;
-			default:
-				if (DIGITS.find(current_character) != std::string::npos) {
-					tokens.push_back(MakeNumber()); // Add the number token to the tokens list;
-				}
-				else {
-					Position start = position.copy();
-					Advance();
-					Error err = IllegalCharacterError(start, position, "Got Unexpected Token At: "); // Throw an error for an illegal character during token creation.
-					LexerResult Result(tokens, err);
-					return Result; // return no tokens as we got an error
-				}
-				break;
+		if (current_character == ' ' || current_character == '\t') {
+			Advance(); // Advance the lexer;
 		}
-	};
-	tokens.push_back(Token(EOFILE, "\0", position)); // Add the End of File token to the tokens vector.
-	Position start = position.copy(); 
-	NoError NoneError(start,position, "Success.");
-	LexerResult Result(tokens, NoneError); // Use a NoneError error class indicating that there were no errors during runtime.
-	return Result; // Return the tokens and the results to the main.cpp script.
+		if (DIGITS.find(current_character) != std::string::npos) {
+			return MakeNumber(); // Add the number token to the tokens list;
+		}
+		else if (current_character == '+') // Check if the current character of the lexer equals to a specific character.
+		{
+			return Token(PLUS, "+", position); // Add the specified token type to the tokens list, using the integer constructor.
+			Advance();
+		}
+		else if (current_character == '-')
+		{
+			return Token(MINUS, "-", position);
+			Advance();
+		}
+		else if (current_character == '*')
+		{
+			return Token(MUL, "*", position);
+			Advance();
+		}
+		else if (current_character == '/')
+		{
+			return Token(DIV, "/", position);
+			Advance();
+		}
+		else if (current_character == '(')
+		{
+			return Token(LPAREN, "(", position);
+			Advance();
+		}
+		else if (current_character == ')')
+		{
+			return Token(RPAREN, ")", position);
+			Advance();
+		}
+		else if (current_character == '{')
+		{
+			return Token(LCURLY, "{", position);
+			Advance();
+		}
+		else if (current_character == '}')
+		{
+			return Token(RCURLY, "}", position);
+			Advance();
+		}
+		else if (current_character == '=')
+		{
+			return MakeEquals();
+		}
+		else if (current_character == '^')
+		{
+			return Token(POW, "^", position);
+			Advance();
+		}
+		else // If the token is invalid raise error.
+		{
+			return Token(TOKEN_ERROR, "Err", position);
+		}
+	}
+	Advance();
+	return Token(EOFILE, "", position);
 }
