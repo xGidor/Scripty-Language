@@ -82,8 +82,8 @@ public:
 	Lexer();
 	Lexer(std::string fn_, std::string text_);
 	void Advance();
-	Token Get_Next_Token();
-	//LexerResult MakeTokens();
+	//Token Get_Next_Token();
+	LexerResult MakeTokens();
 	Token MakeNumber();
 	//Token MakeID();
 	Token MakeEquals();

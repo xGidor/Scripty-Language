@@ -8,12 +8,12 @@
 
 
 // Define ASTVisitor class
-class ASTVisitor {
-public:
-    void visitVariableDeclaration(VariableDeclarationNode node);
-    void visitFunctionCall(FunctionCallNode node);
-    void visitExpression(ExpressionNode node);
-};
+//class ASTVisitor {
+//public:
+//    void visitVariableDeclaration(VariableDeclarationNode node);
+//    void visitFunctionCall(FunctionCallNode node);
+//    void visitExpression(ExpressionNode node);
+//};
 
 
 class ASTNode {
@@ -24,17 +24,6 @@ class StringNode : public ASTNode {
     std::string value;
 
     StringNode(std::string text);
-};
-
-class VariableDeclarationNode : public ASTNode {
-};
-
-class FunctionCallNode : public ASTNode {
-};
-
-class ExpressionNode : public ASTNode {
-public:
-    std::vector<ASTNode*> children;
 };
 
 class NumberNode : public ASTNode { // Inherit the ASTNode class
@@ -53,7 +42,7 @@ public:
 class UnaryOpNode : public ASTNode {
 public:
     Token op;
-    ASTNode* op_node;
+    ASTNode op_node;
 
     UnaryOpNode(Token operator_token, ASTNode node);
 
@@ -69,17 +58,3 @@ public:
     BinaryOpNode(Token operator_token, ASTNode leftnode, ASTNode rightnode);
 
 };
-
-
-void asd() {
-    // Create the AST by parsing your programming language
-
-    // Serialize the root node to JSON
-   // ASTNode* root = /* your root node */
-    //json astJson = root->serialize();
-
-    // Print the JSON representation of the AST
-    //std::cout << astJson.dump(2) << std::endl;
-
-  //  return 0;
-}

@@ -1,6 +1,5 @@
 #include <string>
 #include "parser.hpp"
-#include "nodes.hpp"
 
 Parser::Parser(Lexer lexer)
 {
@@ -10,7 +9,7 @@ Parser::Parser(Lexer lexer)
 void Parser::Eat(std::string token_type) 
 {
 	if (current_token.type == token_type) {
-		current_token = lex.Get_Next_Token();
+		//current_token = lex.Get_Next_Token();
 	}
 	else {
 		//error();
@@ -34,7 +33,6 @@ ASTNode Parser::Factor() {
         Eat(RPAREN);
         return node;
     }
-    return;
 }
 
 ASTNode Parser::Term() {

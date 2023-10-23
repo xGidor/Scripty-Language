@@ -25,9 +25,6 @@
     <Filter Include="Source Files\utils\parser">
       <UniqueIdentifier>{e07c9731-3f93-4f84-bb01-b0b35d7048bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\utils\interpreter">
-      <UniqueIdentifier>{7a212847-aff5-4e2e-bf13-a6d4ce97c20b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -41,9 +38,6 @@
     </ClCompile>
     <ClCompile Include="parser.cpp">
       <Filter>Source Files\utils\parser</Filter>
-    </ClCompile>
-    <ClCompile Include="interpreter.cpp">
-      <Filter>Source Files\utils\interpreter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
