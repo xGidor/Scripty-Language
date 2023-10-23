@@ -41,7 +41,7 @@ ASTNode Parser::Factor() {
     if (token.type == LPAREN) {
         Eat(LPAREN);
         ASTNode node = Expr();
-        Eat(RPAREN);
+        Eat(RPAREN); // doesnt wokr idk why
         return node;
     }
 }
@@ -58,10 +58,9 @@ ASTNode Parser::Term() {
             Eat(DIV);
         }
 
-        std::cout << "parsed binarynode\n";
+        std::cout << "parsed binary node\n";
         node = BinaryOpNode(token, l_node, Factor());
     }
-    std::cout << "parsed term\n";
     return node;
 }
 
@@ -80,7 +79,6 @@ ASTNode Parser::Expr() {
         node = BinaryOpNode(token, node, Term());
     }
 
-    std::cout << "parsed expr\n";
     return node;
 }
 
