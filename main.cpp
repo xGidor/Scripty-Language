@@ -37,17 +37,12 @@ void run(std::string text)
 	}
 	std::vector<Token> tokens = result.tokens; // get the tokens from the lexical analyzer
 	Parser parser = Parser(lex, tokens);
+	parser.current_token = parser.Get_Next_Token();
+	parser.parse();
 
 	for (int i = 0; i < tokens.size(); i++) {
 		
 		std::cout << tokens[i] << " " << std::endl;
 	}
-
-
-
-	//result.tokens.clear(); // Clear the tokens as we can't use them due to an error.
-	//std::string errorString = result.error.as_string(); //  Convert the error object to readable string format.
-	//std::cout << "\n" << errorString + "\n";
-	//return result.tokens; // Return an empty list so we don't get an error.
 }
 

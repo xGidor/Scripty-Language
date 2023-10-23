@@ -5,11 +5,10 @@ Parser::Parser(Lexer lexer, std::vector<Token> tokens)
 {
 	lex = lexer;
     token_list = tokens;
-    Get_Next_Token();
 }
 
 void Parser::Eat(std::string token_type) 
-{
+{   
 	if (current_token.type == token_type) {
 		current_token = Get_Next_Token();
 	}
@@ -25,15 +24,21 @@ Token Parser::Get_Next_Token()
 
 ASTNode Parser::Factor() {
     Token token = current_token;
+    std::cout << current_token.type;
+    std::cout << token_index << std::endl;
     if (token.type == FLOAT) {
         Eat(FLOAT);
+
+        std::cout << "parsed float node\n";
         return NumberNode(std::stof(token.value));
     }
     if (token.type == INT) {
         Eat(INT);
+
+        std::cout << "parsed int node\n";
         return NumberNode(std::stoi(token.value));
     }
-    else if (token.type == LPAREN) {
+    if (token.type == LPAREN) {
         Eat(LPAREN);
         ASTNode node = Expr();
         Eat(RPAREN);
@@ -42,7 +47,8 @@ ASTNode Parser::Factor() {
 }
 
 ASTNode Parser::Term() {
-    ASTNode node = Factor();
+    ASTNode node;
+    ASTNode l_node = Factor();
     while (current_token.type == MUL || current_token.type == DIV) {
         Token token = current_token;
         if (token.type == MUL) {
@@ -51,8 +57,11 @@ ASTNode Parser::Term() {
         else if (token.type == DIV) {
             Eat(DIV);
         }
-        node = BinaryOpNode(token, node, Factor());
+
+        std::cout << "parsed binarynode\n";
+        node = BinaryOpNode(token, l_node, Factor());
     }
+    std::cout << "parsed term\n";
     return node;
 }
 
@@ -66,8 +75,12 @@ ASTNode Parser::Expr() {
         else if (token.type == MINUS) {
             Eat(MINUS);
         }
+
+        std::cout << "parsed binary node\n";
         node = BinaryOpNode(token, node, Term());
     }
+
+    std::cout << "parsed expr\n";
     return node;
 }
 
