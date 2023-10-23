@@ -7,7 +7,7 @@
 
 #include "tokenizer.hpp"
 #include "errors.hpp"
-
+#include "nodes.hpp"
 
 class ParseResult {
 

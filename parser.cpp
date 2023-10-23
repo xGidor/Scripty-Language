@@ -24,6 +24,10 @@ ASTNode Parser::Factor() {
         Eat(FLOAT);
         return NumberNode(std::stof(token.value));
     }
+    if (token.type == INT) {
+        Eat(INT);
+        return NumberNode(std::stoi(token.value));
+    }
     else if (token.type == LPAREN) {
         Eat(LPAREN);
         ASTNode node = Expr();

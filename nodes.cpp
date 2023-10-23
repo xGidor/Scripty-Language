@@ -7,64 +7,31 @@ StringNode::StringNode(std::string text)
 	value = text;
 }
 
-
-IntNode::IntNode(int number) {
+NumberNode::NumberNode(float number)
+{
     value = number;
 }
 
-// Perform addition with another IntNode
-IntNode IntNode::add(const IntNode& other) const {
-    return IntNode(value + other.value);
-}
-
-// Perform subtraction with another IntNode
-IntNode IntNode::subtract(const IntNode& other) const {
-    return IntNode(value - other.value);
-}
-
-// Perform multiplication with another IntNode
-IntNode IntNode::multiply(const IntNode& other) const {
-    return IntNode(value * other.value);
-}
-
-// Perform division with another IntNode
-IntNode IntNode::divide(const IntNode& other) const {
-    if (other.value == 0) {
-        return IntNode(std::numeric_limits<float>::quiet_NaN());
-    }
-    return IntNode(value / other.value);
-}
-
-
-
-
-
-FloatNode::FloatNode(float number) {
-	value = number;
-}
-
 // Perform addition with another NumberNode
-FloatNode FloatNode::add(const FloatNode& other) const {
-    return FloatNode(value + other.value);
+NumberNode NumberNode::add(const NumberNode& other) const {
+    return NumberNode(value + other.value);
 }
-
 // Perform subtraction with another NumberNode
-FloatNode FloatNode::subtract(const FloatNode& other) const {
-    return FloatNode(value - other.value);
+NumberNode NumberNode::subtract(const NumberNode& other) const {
+    return NumberNode(value - other.value);
 }
-
 // Perform multiplication with another NumberNode
-FloatNode FloatNode::multiply(const FloatNode& other) const {
-    return FloatNode(value * other.value);
+NumberNode NumberNode::multiply(const NumberNode& other) const {
+    return NumberNode(value * other.value);
+}
+// Perform division with another NumberNode
+NumberNode NumberNode::divide(const NumberNode& other) const {
+    if (other.value == 0) {
+        return NumberNode(std::numeric_limits<float>::quiet_NaN());
+    }
+    return NumberNode(value / other.value);
 }
 
-// Perform division with another NumberNode
-FloatNode FloatNode::divide(const FloatNode& other) const {
-    if (other.value == 0) {
-        return FloatNode(std::numeric_limits<float>::quiet_NaN());
-    }
-    return FloatNode(value / other.value);
-}
 
 UnaryOpNode::UnaryOpNode(Token operator_token, ASTNode node_)
 {

@@ -1,9 +1,20 @@
 #include <iostream>
 #include <vector>
-#include "json.hpp" // C++ Json lib
+//#include "json.hpp" // C++ Json lib
 #include "tokenizer.hpp"
 
-using json = nlohmann::json;
+//using json = nlohmann::json;
+
+
+
+// Define ASTVisitor class
+class ASTVisitor {
+public:
+    void visitVariableDeclaration(VariableDeclarationNode node);
+    void visitFunctionCall(FunctionCallNode node);
+    void visitExpression(ExpressionNode node);
+};
+
 
 class ASTNode {
 
@@ -15,34 +26,34 @@ class StringNode : public ASTNode {
     StringNode(std::string text);
 };
 
-class IntNode : public ASTNode { // Inherit the ASTNode class
-public:
-    int value; // The value of the number node.
-    
-    IntNode(int value);
-
-    IntNode add(const IntNode& other) const;
-    IntNode subtract(const IntNode& other) const;
-    IntNode multiply(const IntNode& other) const;
-    IntNode divide(const IntNode& other) const;
+class VariableDeclarationNode : public ASTNode {
 };
 
-class FloatNode : public ASTNode { // Inherit the ASTNode class
+class FunctionCallNode : public ASTNode {
+};
+
+class ExpressionNode : public ASTNode {
+public:
+    std::vector<ASTNode*> children;
+};
+
+class NumberNode : public ASTNode { // Inherit the ASTNode class
 public:
     float value; // The value of the number node.
+    
+    NumberNode(float value);
 
-    FloatNode(float value);
-
-    FloatNode add(const  FloatNode& other) const;
-    FloatNode subtract(const  FloatNode& other) const;
-    FloatNode multiply(const  FloatNode& other) const;
-    FloatNode divide(const  FloatNode& other) const;
+    NumberNode add(const NumberNode& other) const;
+    NumberNode subtract(const NumberNode& other) const;
+    NumberNode multiply(const NumberNode& other) const;
+    NumberNode divide(const NumberNode& other) const;
 };
+
 
 class UnaryOpNode : public ASTNode {
 public:
     Token op;
-    ASTNode op_node;
+    ASTNode* op_node;
 
     UnaryOpNode(Token operator_token, ASTNode node);
 
