@@ -1,21 +1,27 @@
 #include <string>
 #include "parser.hpp"
 
-Parser::Parser(Lexer lexer)
+Parser::Parser(Lexer lexer, std::vector<Token> tokens)
 {
 	lex = lexer;
+    token_list = tokens;
+    Get_Next_Token();
 }
 
 void Parser::Eat(std::string token_type) 
 {
 	if (current_token.type == token_type) {
-		//current_token = lex.Get_Next_Token();
+		current_token = Get_Next_Token();
 	}
 	else {
 		//error();
 	}
 }
-
+Token Parser::Get_Next_Token()
+{
+    token_index++;
+    return token_list[token_index];
+}
 
 ASTNode Parser::Factor() {
     Token token = current_token;

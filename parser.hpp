@@ -18,16 +18,19 @@ class Parser
 public:
 
 	Lexer lex;
+	int token_index = -1;
 	Token current_token;
-	Parser(Lexer lexer);
+	std::vector<Token> token_list;
+
+	Parser(Lexer lexer, std::vector<Token> tokens); // Constructor
 	
 	//Error error();
 	void Eat(std::string token_type);
+	Token Get_Next_Token();
 	ASTNode Factor();
 	ASTNode Term();
 	ASTNode Expr();
 	ASTNode parse();
-
 	
 };
 

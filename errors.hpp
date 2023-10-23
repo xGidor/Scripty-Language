@@ -19,7 +19,7 @@ public:
 
     std::string as_string() { // Construct a nice human readable error with strings.
         std::string result = error_name + ": " + details + "\n";
-        result += "File " + pos_start.fn + ", line " + std::to_string(pos_start.ln + 1);
+        result += "File " + pos_start.fn + ", line " + std::to_string(pos_start.ln + 1) + "\n";
         return result;
     }
 };
