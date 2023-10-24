@@ -11,6 +11,7 @@ void Parser::Eat(std::string token_type)
 {   
 	if (current_token.type == token_type) {
 		current_token = Get_Next_Token();
+        std::cout << current_token.type << std::endl;
 	}
 	else {
 		//error();
@@ -24,8 +25,6 @@ Token Parser::Get_Next_Token()
 
 ASTNode Parser::Factor() {
     Token token = current_token;
-    std::cout << current_token.type;
-    std::cout << token_index << std::endl;
     if (token.type == FLOAT) {
         Eat(FLOAT);
 
