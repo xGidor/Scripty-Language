@@ -27,10 +27,10 @@ public:
 	//Error error();
 	void Eat(std::string token_type);
 	Token Get_Next_Token();
-	ASTNode Factor();
-	ASTNode Term();
-	ASTNode Expr();
-	ASTNode parse();
+	ASTNode* Factor();
+	ASTNode* Term();
+	ASTNode* Expr();
+	ASTNode* parse();
 	
 };
 

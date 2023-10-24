@@ -23,31 +23,31 @@ Token Parser::Get_Next_Token()
     return token_list[token_index];
 }
 
-ASTNode Parser::Factor() {
+ASTNode* Parser::Factor() {
     Token token = current_token;
     if (token.type == FLOAT) {
         Eat(FLOAT);
 
         std::cout << "parsed float node\n";
-        return NumberNode(std::stof(token.value));
+        return NumberNode::createNumberNodeFloat(token);
     }
     if (token.type == INT) {
         Eat(INT);
 
         std::cout << "parsed int node\n";
-        return NumberNode(std::stoi(token.value));
+        return NumberNode::createNumberNodeInt(token);
     }
     if (token.type == LPAREN) {
         Eat(LPAREN);
-        ASTNode node = Expr();
+        ASTNode* node = Expr();
         Eat(RPAREN); // doesnt wokr idk why
         return node;
     }
 }
 
-ASTNode Parser::Term() {
-    ASTNode node;
-    ASTNode l_node = Factor();
+ASTNode* Parser::Term() {
+    ASTNode* node = nullptr;
+    ASTNode* l_node = Factor();
     while (current_token.type == MUL || current_token.type == DIV) {
         Token token = current_token;
         if (token.type == MUL) {
@@ -58,13 +58,13 @@ ASTNode Parser::Term() {
         }
 
         std::cout << "parsed binary node\n";
-        node = BinaryOpNode(token, l_node, Factor());
+        node = BinaryOpNode::createBinaryOpNode(token, l_node, Factor());
     }
     return node;
 }
 
-ASTNode Parser::Expr() {
-    ASTNode node = Term();
+ASTNode* Parser::Expr() {
+    ASTNode* node = Term();
     while (current_token.type == PLUS || current_token.type == MINUS) {
         Token token = current_token;
         if (token.type == PLUS) {
@@ -75,12 +75,12 @@ ASTNode Parser::Expr() {
         }
 
         std::cout << "parsed binary node\n";
-        node = BinaryOpNode(token, node, Term());
+        node = BinaryOpNode::createBinaryOpNode(token, node, Term());
     }
 
     return node;
 }
 
-ASTNode Parser::parse() {
+ASTNode* Parser::parse() {
     return Expr();
 }
