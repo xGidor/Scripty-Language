@@ -38,7 +38,7 @@ void run(std::string text)
 	std::vector<Token> tokens = result.tokens; // get the tokens from the lexical analyzer
 	Parser parser = Parser(lex, tokens);
 	parser.current_token = parser.Get_Next_Token();
-	parser.parse();
+	parser.Parse();
 
 	for (int i = 0; i < tokens.size(); i++) {
 		

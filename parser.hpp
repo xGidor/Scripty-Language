@@ -30,7 +30,7 @@ public:
 	ASTNode* Factor();
 	ASTNode* Term();
 	ASTNode* Expr();
-	ASTNode* parse();
+	ASTNode* Parse();
 	
 };
 

@@ -46,11 +46,12 @@ Token Lexer::MakeEquals()
 		tokstr = "==";
 	}
 
-	Token tok = Token(tok_type.type, tokstr, pos_start);
-	tok.pos_end = position.copy();
-	return tok;
+	Token tok = Token(tok_type.type, tokstr, pos_start); // Construct our Token class with our equals signs.
+	tok.pos_end = position.copy(); // Copy our current position to be the ending position.
+	return tok; // Return our token.
 }
 
+// String token constructor
 Token Lexer::makeString(char qt) {
 	std::string str = ""; // Set string to empty by def.
 	Position pos_start = position.copy();
@@ -76,19 +77,20 @@ Token Lexer::makeString(char qt) {
 				continue;
 			}
 			else {
-				str += current_character;
+				str += current_character; // Add the forbidden character to the string
 			}
 		}
 		Advance();
-		escape_character = false;
+		escape_character = false; 
 	}
 
 	Advance();
-	Token tok = Token(STRING, str, pos_start);
-	tok.pos_end = position.copy();
-	return tok;
+	Token tok = Token(STRING, str, pos_start); // Create the string token with our string and start position.
+	tok.pos_end = position.copy(); // copy our current position for the ending position.
+	return tok; // return the STRING token.
 }
 
+// Function to advance the position of the lexer.
 Position Position::advance(char current_char)
 {
 	idx++;
@@ -215,8 +217,8 @@ LexerResult Lexer::MakeTokens()
 	};
 	tokens.push_back(Token(EOFILE, "\0", position));
 	Position start = position.copy();
-	NoError NoneError(start, position, "Success.");
+	NoError NoneError(start, position, "Success."); // Construct a Success message to return with. This ensures that the program can continue to the Parser phase.
 	LexerResult Result(tokens, NoneError);
-	return Result;
+	return Result; // Return the results from the lexer;
 }
 
