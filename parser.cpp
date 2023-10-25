@@ -27,64 +27,59 @@ Token Parser::Get_Next_Token()
     return token_list[token_index];
 }
 
-ASTNode* Parser::Factor() {
+ASTNode* Parser::Primary() {
     Token token = current_token;
-    if (token.type == FLOAT) { // check if the current token is a float
+    if (token.type == FLOAT) {
         Eat(FLOAT);
-
-        std::cout << "parsed float node\n";
-        return NumberNode::createNumberNodeFloat(token); // Create a number node from a float
+        return NumberNode::createNumberNodeFloat(token);
     }
-    if (token.type == INT) {  // check if the current token is an int
+    if (token.type == INT) {
         Eat(INT);
-
-        std::cout << "parsed int node\n";
-        return NumberNode::createNumberNodeInt(token); // Create a number node from an int
+        return NumberNode::createNumberNodeInt(token);
     }
-    if (token.type == LPAREN) { // if we have a parenthesis construct an expression
-        Eat(LPAREN);// check if the current token is still a LPAREN
-        ASTNode* node = Expr(); // construct an expression then advance the parser to the next token
-        Eat(RPAREN); // check if the current token is a right parenthesis
+    if (token.type == LPAREN) {
+        Eat(LPAREN);
+        ASTNode* node = Expr();
+        Eat(RPAREN);
         return node;
     }
+    // Handle other cases or raise an error for invalid input.
+    return nullptr; // Handle this case as needed.
 }
-
-ASTNode* Parser::Term() {
-    ASTNode* node = nullptr; // Set it to nullpointer so we don't get an error on the return none; this might lead to issues in the future
-    ASTNode* l_node = Factor();
+ASTNode* Parser::Factor() {
+    ASTNode* node = Primary();
     while (current_token.type == MUL || current_token.type == DIV) {
         Token token = current_token;
-        if (token.type == MUL) { // Check if the current token is a MULTIPLICATION
+        if (token.type == MUL) {
             Eat(MUL);
         }
-        else if (token.type == DIV) { // Check if the current token is a DIVISION
+        else if (token.type == DIV) {
             Eat(DIV);
         }
-
-        std::cout << "parsed binary node\n";
-        node = BinaryOpNode::createBinaryOpNode(token, l_node, Factor()); // Create a binary node with the got results.
+        ASTNode* right = Primary();
+        node = BinaryOpNode::createBinaryOpNode(token, node, right);
     }
     return node;
 }
-
-ASTNode* Parser::Expr() {
-    ASTNode* node = Term();
+ASTNode* Parser::Term() {
+    ASTNode* node = Factor();
     while (current_token.type == PLUS || current_token.type == MINUS) {
         Token token = current_token;
-        if (token.type == PLUS) { // Check if the current token is a PLUS
+        if (token.type == PLUS) {
             Eat(PLUS);
         }
-        else if (token.type == MINUS) { // Check if the current token is a MINUS
+        else if (token.type == MINUS) {
             Eat(MINUS);
         }
-
-        std::cout << "parsed binary node\n";
-        node = BinaryOpNode::createBinaryOpNode(token, node, Term()); // Create a binary node with the got results.
+        ASTNode* right = Factor();
+        node = BinaryOpNode::createBinaryOpNode(token, node, right);
     }
-
-    return node; // Return our newly made BinaryOp Node
+    return node;
 }
-
+ASTNode* Parser::Expr() {
+    return Term();
+}
+    
 ASTNode* Parser::Parse() {
     return Expr(); // Start the parser with an expression lookup.
 }
