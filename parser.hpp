@@ -31,6 +31,7 @@ public:
 	ASTNode* Factor();
 	ASTNode* Term();
 	ASTNode* Expr();
+	float ParseAndCalculate();
 	ASTNode* Parse();
 	
 };

@@ -39,6 +39,7 @@ void run(std::string text)
 	Parser parser = Parser(lex, tokens);
 	parser.current_token = parser.Get_Next_Token();
 	parser.Parse();
+	std::cout << parser.ParseAndCalculate() << std::endl;
 
 	for (int i = 0; i < tokens.size(); i++) {
 		

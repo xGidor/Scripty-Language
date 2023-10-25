@@ -53,6 +53,7 @@ public:
     static NumberNode* createNumberNodeInt(const Token& token) {
         return new NumberNode(std::stoi(token.value));
     }
+    float evaluate() { return value; }
 
     NumberNode add(const NumberNode& other) const;
     NumberNode subtract(const NumberNode& other) const;
@@ -97,6 +98,33 @@ public:
     }
     static BinaryOpNode* createBinaryOpNode(Token op_token, ASTNode* left, ASTNode* right) {
         return new BinaryOpNode(op_token, left, right);
+    }
+
+    float evaluate() {
+        float left_value;
+        float right_value;
+        if (dynamic_cast<NumberNode*>(left)) {
+            left_value = dynamic_cast<NumberNode*>(left)->value;
+            std::cout << left_value;
+        }
+
+        if (dynamic_cast<NumberNode*>(right)) {
+            right_value = dynamic_cast<NumberNode*>(right)->value;
+            std::cout << right_value;
+        }
+        std::cout << op.value;
+        if (op.value == "PLUS") return left_value + right_value;
+        else if (op.value == "MINUS") return left_value - right_value;
+        else if (op.value == "MULTIPLY") return left_value * right_value;
+        else if (op.value == "DIVIDE") {
+            if (right_value == 0) {
+                // Handle division by zero error
+                // You can raise an exception or handle it as needed.
+            }
+            return left_value / right_value;
+        }
+        // Handle other cases or raise an error for invalid operators.
+        return 0;
     }
 
     BinaryOpNode(Token operator_token, ASTNode* leftnode, ASTNode* rightnode) : op(operator_token), left(leftnode), right(rightnode) {}
