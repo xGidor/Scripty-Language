@@ -105,18 +105,15 @@ public:
         float right_value;
         if (dynamic_cast<NumberNode*>(left)) {
             left_value = dynamic_cast<NumberNode*>(left)->value;
-            std::cout << left_value;
         }
 
         if (dynamic_cast<NumberNode*>(right)) {
             right_value = dynamic_cast<NumberNode*>(right)->value;
-            std::cout << right_value;
         }
-        std::cout << op.value;
-        if (op.value == "PLUS") return left_value + right_value;
-        else if (op.value == "MINUS") return left_value - right_value;
-        else if (op.value == "MULTIPLY") return left_value * right_value;
-        else if (op.value == "DIVIDE") {
+        if (op.type == "PLUS") return left_value + right_value;
+        else if (op.type == "MINUS") return left_value - right_value;
+        else if (op.type == "MULTIPLY") return left_value * right_value;
+        else if (op.type == "DIVIDE") {
             if (right_value == 0) {
                 // Handle division by zero error
                 // You can raise an exception or handle it as needed.

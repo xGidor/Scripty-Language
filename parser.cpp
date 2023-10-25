@@ -82,11 +82,18 @@ float Parser::ParseAndCalculate() {
     if (root) {
         // Attempt to cast the root to a NumberNode
         NumberNode* numberNode = dynamic_cast<NumberNode*>(root);
+        BinaryOpNode* binNode = dynamic_cast<BinaryOpNode*>(root);
+
 
         if (numberNode) {
             return static_cast<float>(numberNode->value);
         }
+        else if (binNode)
+        {
+            return static_cast<float>(binNode->evaluate());
+        }
         else {
+            std::cout << "asd";
             // Handle the case where the root is not a NumberNode.
             // You can raise an exception or handle it as needed.
             return 0.0f; // Handle this case as needed.
