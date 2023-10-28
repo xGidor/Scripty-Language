@@ -1,6 +1,6 @@
 #include <string>
-#include "nodes.hpp"
-#include "errors.hpp"
+#include "include/nodes.hpp"
+#include "include/errors.hpp"
 
 StringNode::StringNode(std::string text)
 {

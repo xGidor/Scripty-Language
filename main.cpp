@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
-#include "tokenizer.hpp"
-#include "parser.hpp"
+#include "src/include/tokenizer.hpp"
+#include "src/include/parser.hpp"
 
 //std::vector<Token> Run(std::string text);
 

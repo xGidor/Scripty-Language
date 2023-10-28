@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "tokenizer.hpp"
 #include <map>
+#include "include/tokenizer.hpp"
 
 // Token Constructor
 Token::Token(std::string type_, std::string value_, Position pos_start)
@@ -55,7 +55,7 @@ Token Lexer::MakeEquals()
 Token Lexer::makeString(char qt) {
 	std::string str = ""; // Set string to empty by def.
 	Position pos_start = position.copy();
-	bool escape_character = false; // No escape character in string by defauét
+	bool escape_character = false; // No escape character in string by defauï¿½t
 	Advance(); // Advance the lexer
 
 	std::map<char, char> escape_characters = {
