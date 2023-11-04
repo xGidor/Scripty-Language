@@ -4,14 +4,19 @@ project(ScriptyLang)
 # Specify the source files
 set(SOURCES
     main.cpp
-    src/nodes.cpp
-    src/parser.cpp
-    src/tokenizer.cpp
+    src/nodes/nodes.cpp
+    src/parser/parser.cpp
+    src/tokenizer/tokenizer.cpp
 )
 
 # Specify the include directories, including the one within the "src" directory
 include_directories(
-    src/include
+    src/nodes
+    src/errors
+    src/json
+    src/parser
+    src/position
+    src/tokenizer
 )
 
 # Create an executable target

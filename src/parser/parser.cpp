@@ -1,5 +1,5 @@
 #include <string>
-#include "include/parser.hpp"
+#include "parser.hpp"
 
 // Base constructor for the Parser class.
 Parser::Parser(Lexer lexer, std::vector<Token> tokens)

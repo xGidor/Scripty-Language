@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
-#include "src/include/tokenizer.hpp"
-#include "src/include/parser.hpp"
+#include "src/tokenizer/tokenizer.hpp"
+#include "src/parser/parser.hpp"
 
 //std::vector<Token> Run(std::string text);
 
@@ -10,7 +10,7 @@ void run(std::string text);
 // Main Program Loop
 int main() {
 
-	for (int i = 0; i < 1; i = 0) // Infinite Program Loop
+	for (;;) // Infinite Program Loop
 	{
 		std::string* input;
 		input = new std::string;

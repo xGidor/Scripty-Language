@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
-#include "json.hpp" // C++ Json lib
-#include "tokenizer.hpp"
+#include "../json/json.hpp" // C++ Json lib
+#include "../tokenizer/tokenizer.hpp"
 
 using json = nlohmann::json;
 

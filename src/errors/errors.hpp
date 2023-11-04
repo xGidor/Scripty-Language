@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#include "position.hpp"
+#include "../position/position.hpp"
 
 // Base Error class
 class Error {

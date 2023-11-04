@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "include/tokenizer.hpp"
+#include "tokenizer.hpp"
 
 // Token Constructor
 Token::Token(std::string type_, std::string value_, Position pos_start)

@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "errors.hpp"
+#include "../errors/errors.hpp"
 
 enum LexResult
 {
@@ -12,6 +12,8 @@ enum LexResult
 };
 
 // Token types and Digits
+const std::string LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz";
+
 const std::string IDENTIFIER = "IDENTIFIER";
 const std::string DIGITS = "0123456789";
 const std::string INT = "INT";
@@ -91,10 +93,8 @@ public:
 	Lexer();
 	Lexer(std::string fn_, std::string text_);
 	void Advance();
-	//Token Get_Next_Token();
 	LexerResult MakeTokens();
 	Token MakeNumber();
-	//Token MakeID();
 	Token MakeEquals();
 	Token makeString(char qt);
 };

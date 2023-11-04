@@ -5,9 +5,9 @@
 #include <vector>
 #include <string>
 
-#include "tokenizer.hpp"
-#include "errors.hpp"
-#include "nodes.hpp"
+#include "../tokenizer/tokenizer.hpp"
+#include "../errors/errors.hpp"
+#include "../nodes/nodes.hpp"
 
 class ParseResult {
 

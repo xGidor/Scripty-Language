@@ -152,77 +152,77 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-src/nodes.obj: src/nodes.cpp.obj
-.PHONY : src/nodes.obj
+src/nodes/nodes.obj: src/nodes/nodes.cpp.obj
+.PHONY : src/nodes/nodes.obj
 
 # target to build an object file
-src/nodes.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/nodes.cpp.obj
-.PHONY : src/nodes.cpp.obj
+src/nodes/nodes.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/nodes/nodes.cpp.obj
+.PHONY : src/nodes/nodes.cpp.obj
 
-src/nodes.i: src/nodes.cpp.i
-.PHONY : src/nodes.i
+src/nodes/nodes.i: src/nodes/nodes.cpp.i
+.PHONY : src/nodes/nodes.i
 
 # target to preprocess a source file
-src/nodes.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/nodes.cpp.i
-.PHONY : src/nodes.cpp.i
+src/nodes/nodes.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/nodes/nodes.cpp.i
+.PHONY : src/nodes/nodes.cpp.i
 
-src/nodes.s: src/nodes.cpp.s
-.PHONY : src/nodes.s
+src/nodes/nodes.s: src/nodes/nodes.cpp.s
+.PHONY : src/nodes/nodes.s
 
 # target to generate assembly for a file
-src/nodes.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/nodes.cpp.s
-.PHONY : src/nodes.cpp.s
+src/nodes/nodes.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/nodes/nodes.cpp.s
+.PHONY : src/nodes/nodes.cpp.s
 
-src/parser.obj: src/parser.cpp.obj
-.PHONY : src/parser.obj
+src/parser/parser.obj: src/parser/parser.cpp.obj
+.PHONY : src/parser/parser.obj
 
 # target to build an object file
-src/parser.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/parser.cpp.obj
-.PHONY : src/parser.cpp.obj
+src/parser/parser.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/parser/parser.cpp.obj
+.PHONY : src/parser/parser.cpp.obj
 
-src/parser.i: src/parser.cpp.i
-.PHONY : src/parser.i
+src/parser/parser.i: src/parser/parser.cpp.i
+.PHONY : src/parser/parser.i
 
 # target to preprocess a source file
-src/parser.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/parser.cpp.i
-.PHONY : src/parser.cpp.i
+src/parser/parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/parser/parser.cpp.i
+.PHONY : src/parser/parser.cpp.i
 
-src/parser.s: src/parser.cpp.s
-.PHONY : src/parser.s
+src/parser/parser.s: src/parser/parser.cpp.s
+.PHONY : src/parser/parser.s
 
 # target to generate assembly for a file
-src/parser.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/parser.cpp.s
-.PHONY : src/parser.cpp.s
+src/parser/parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/parser/parser.cpp.s
+.PHONY : src/parser/parser.cpp.s
 
-src/tokenizer.obj: src/tokenizer.cpp.obj
-.PHONY : src/tokenizer.obj
+src/tokenizer/tokenizer.obj: src/tokenizer/tokenizer.cpp.obj
+.PHONY : src/tokenizer/tokenizer.obj
 
 # target to build an object file
-src/tokenizer.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/tokenizer.cpp.obj
-.PHONY : src/tokenizer.cpp.obj
+src/tokenizer/tokenizer.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/tokenizer/tokenizer.cpp.obj
+.PHONY : src/tokenizer/tokenizer.cpp.obj
 
-src/tokenizer.i: src/tokenizer.cpp.i
-.PHONY : src/tokenizer.i
+src/tokenizer/tokenizer.i: src/tokenizer/tokenizer.cpp.i
+.PHONY : src/tokenizer/tokenizer.i
 
 # target to preprocess a source file
-src/tokenizer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/tokenizer.cpp.i
-.PHONY : src/tokenizer.cpp.i
+src/tokenizer/tokenizer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/tokenizer/tokenizer.cpp.i
+.PHONY : src/tokenizer/tokenizer.cpp.i
 
-src/tokenizer.s: src/tokenizer.cpp.s
-.PHONY : src/tokenizer.s
+src/tokenizer/tokenizer.s: src/tokenizer/tokenizer.cpp.s
+.PHONY : src/tokenizer/tokenizer.s
 
 # target to generate assembly for a file
-src/tokenizer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/tokenizer.cpp.s
-.PHONY : src/tokenizer.cpp.s
+src/tokenizer/tokenizer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Scripty.dir\build.make CMakeFiles/Scripty.dir/src/tokenizer/tokenizer.cpp.s
+.PHONY : src/tokenizer/tokenizer.cpp.s
 
 # Help Target
 help:
@@ -236,15 +236,15 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
-	@echo ... src/nodes.obj
-	@echo ... src/nodes.i
-	@echo ... src/nodes.s
-	@echo ... src/parser.obj
-	@echo ... src/parser.i
-	@echo ... src/parser.s
-	@echo ... src/tokenizer.obj
-	@echo ... src/tokenizer.i
-	@echo ... src/tokenizer.s
+	@echo ... src/nodes/nodes.obj
+	@echo ... src/nodes/nodes.i
+	@echo ... src/nodes/nodes.s
+	@echo ... src/parser/parser.obj
+	@echo ... src/parser/parser.i
+	@echo ... src/parser/parser.s
+	@echo ... src/tokenizer/tokenizer.obj
+	@echo ... src/tokenizer/tokenizer.i
+	@echo ... src/tokenizer/tokenizer.s
 .PHONY : help
 
 
