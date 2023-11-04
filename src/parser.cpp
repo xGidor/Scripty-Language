@@ -112,5 +112,6 @@ ASTNode* Parser::Expr() {
 }
     
 ASTNode* Parser::Parse() {
+    current_token = Get_Next_Token();
     return Expr(); // Start the parser with an expression lookup.
 }

@@ -28,23 +28,22 @@ int main() {
 void run(std::string text)
 {
 	Lexer lex = Lexer("<program>", text);
-	LexerResult result = lex.MakeTokens();
-	if (result.error.error_name != "NoError")
-	{
-		std::string errorString = result.error.as_string();
-		std::cout << errorString;
-		return;
-	}
-	std::vector<Token> tokens = result.tokens; // get the tokens from the lexical analyzer
-	Parser parser = Parser(lex, tokens); parser.current_token = parser.Get_Next_Token();
+	LexerResult lexRes = lex.MakeTokens();
+	//if (result.error.error_name != "NoError")
+	//{
+	//	std::string errorString = result.error.as_string();
+	//	std::cout << errorString;
+	//	return;
+	//}
+	std::vector<Token> tokens = lexRes.tokens; // get the tokens from the lexical analyzer
+	Parser parser = Parser(lex, tokens); 
 	ASTNode* root = parser.Parse();
+	int result = parser.evaluateAST(root);
+	std::cout << result << std::endl;
+	//for (int i = 0; i < tokens.size(); i++) 
+	//{
+	//	std::cout << tokens[i] << " " << std::endl;
+	//}
 
-	for (int i = 0; i < tokens.size(); i++) 
-	{
-		std::cout << tokens[i] << " " << std::endl;
-	}
-	delete &tokens;
-	delete &parser;
-	delete root;
 }
 
