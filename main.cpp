@@ -25,15 +25,24 @@ int main() {
 	return 0;
 }
 
+int LexerCheck(LexerResult result) // Function for checking errors during lexing.
+{	
+	if (result.result == LexResult::success) // Checks if the Lexing Result was a success
+		return 1; // Return True
+	
+	std::cout << result.error.as_string(); // Generate the error message if it was not a success.
+	return 0; // Return false
+}
+
+
 void run(std::string text)
 {
 	Lexer lex = Lexer("<program>", text); // Create our lexer with a filename (For console it's <program>) and the file contents
-	LexerResult lexRes = lex.MakeTokens(); // Make tokens from the file text.
+	LexerResult lexResult = lex.MakeTokens(); // Make tokens from the file text.
 
-	// Handle LexerResult
+	if (LexerCheck(lexResult) == 0) { return; } // Check for errors during lexing process.
 
-	std::vector<Token> tokens = lexRes.tokens; // get the tokens from the lexical analyzer
-	Parser parser = Parser(lex, tokens); // Create our Parser Object.
+	Parser parser = Parser(lex, lexResult.tokens); // Create our Parser Object.
 	ASTNode* root = parser.Parse(); // Parse our Lexed tokens and generate a syntax tree.
 	int result = parser.evaluateAST(root); // Traverse the Abstract Syntax Tree
 
