@@ -69,7 +69,7 @@ public:
 
     json serialize() const override {
         json j;
-        j["type"] = "UnaryOPûp";
+        j["type"] = "UnaryOP";
         j["node"] = op_node->serialize();
         return j;
     }
@@ -98,30 +98,6 @@ public:
     }
     static BinaryOpNode* createBinaryOpNode(Token op_token, ASTNode* left, ASTNode* right) {
         return new BinaryOpNode(op_token, left, right);
-    }
-
-    float evaluate() {
-        float left_value;
-        float right_value;
-        if (dynamic_cast<NumberNode*>(left)) {
-            left_value = dynamic_cast<NumberNode*>(left)->value;
-        }
-
-        if (dynamic_cast<NumberNode*>(right)) {
-            right_value = dynamic_cast<NumberNode*>(right)->value;
-        }
-        if (op.type == "PLUS") return left_value + right_value;
-        else if (op.type == "MINUS") return left_value - right_value;
-        else if (op.type == "MULTIPLY") return left_value * right_value;
-        else if (op.type == "DIVIDE") {
-            if (right_value == 0) {
-                // Handle division by zero error
-                // You can raise an exception or handle it as needed.
-            }
-            return left_value / right_value;
-        }
-        // Handle other cases or raise an error for invalid operators.
-        return 0;
     }
 
     BinaryOpNode(Token operator_token, ASTNode* leftnode, ASTNode* rightnode) : op(operator_token), left(leftnode), right(rightnode) {}

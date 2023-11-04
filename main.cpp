@@ -36,13 +36,15 @@ void run(std::string text)
 		return;
 	}
 	std::vector<Token> tokens = result.tokens; // get the tokens from the lexical analyzer
-	Parser parser = Parser(lex, tokens);
-	parser.current_token = parser.Get_Next_Token();
-	std::cout << parser.ParseAndCalculate() << std::endl;
+	Parser parser = Parser(lex, tokens); parser.current_token = parser.Get_Next_Token();
+	ASTNode* root = parser.Parse();
 
-	for (int i = 0; i < tokens.size(); i++) {
-		
+	for (int i = 0; i < tokens.size(); i++) 
+	{
 		std::cout << tokens[i] << " " << std::endl;
 	}
+	delete &tokens;
+	delete &parser;
+	delete root;
 }
 

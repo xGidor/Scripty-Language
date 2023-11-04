@@ -77,33 +77,6 @@ ASTNode* Parser::Term() {
     return node;
 }
 
-float Parser::ParseAndCalculate() {
-    ASTNode* root = Parse();
-    if (root) {
-        // Attempt to cast the root to a NumberNode
-        NumberNode* numberNode = dynamic_cast<NumberNode*>(root);
-        BinaryOpNode* binNode = dynamic_cast<BinaryOpNode*>(root);
-
-
-        if (numberNode) {
-            return static_cast<float>(numberNode->value);
-        }
-        else if (binNode)
-        {
-            return static_cast<float>(binNode->evaluate());
-        }
-        else {
-            std::cout << "asd";
-            // Handle the case where the root is not a NumberNode.
-            // You can raise an exception or handle it as needed.
-            return 0.0f; // Handle this case as needed.
-        }
-    }
-    else {
-        // Handle the case where parsing failed or return an error value.
-        return 0.0f; // Handle this case as needed.
-    }
-}
 
 ASTNode* Parser::Expr() {
     return Term();
