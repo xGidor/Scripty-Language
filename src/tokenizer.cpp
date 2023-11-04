@@ -210,15 +210,13 @@ LexerResult Lexer::MakeTokens()
 		{
 			Position start = position.copy();
 			Advance();
-			Error err = IllegalCharacterError(start, position, "Got unexpected token at: ");
-			LexerResult Result(tokens, err);
+			Error LexerError = IllegalCharacterError(start, position, "Got unexpected token at: ");
+			LexerResult Result(error, LexerError);
 			return Result; // return no tokens as we got an error
 		}
 	};
 	tokens.push_back(Token(EOFILE, "\0", position));
-	Position start = position.copy();
-	NoError NoneError(start, position, "Success."); // Construct a Success message to return with. This ensures that the program can continue to the Parser phase.
-	LexerResult Result(tokens, NoneError);
+	LexerResult Result(tokens, success);
 	return Result; // Return the results from the lexer;
 }
 
