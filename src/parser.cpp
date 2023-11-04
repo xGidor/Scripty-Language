@@ -13,7 +13,7 @@ void Parser::Eat(std::string token_type)
 {   
 	if (current_token.type == token_type) { // Verifies the current token to be the one passed into our function
 		current_token = Get_Next_Token(); // Get the next token if we could verify the correct token.
-        std::cout << current_token.type << std::endl; // Print out the token type for debug purposes.
+        //std::cout << current_token.type << std::endl; // Print out the token type for debug purposes.
 	}
 	else {
 		//error();
@@ -77,6 +77,35 @@ ASTNode* Parser::Term() {
     return node;
 }
 
+int Parser::evaluateAST(ASTNode* node) {
+    if (node->getType() == BINARY_OP_NODE) {
+        BinaryOpNode* binaryOp = static_cast<BinaryOpNode*>(node);
+        int leftValue = evaluateAST(binaryOp->getLeft());
+        int rightValue = evaluateAST(binaryOp->getRight());
+        if (binaryOp->getOperator().type == PLUS) {
+            return leftValue + rightValue;
+        }
+        else if (binaryOp->getOperator().type == MINUS) {
+            return leftValue - rightValue;
+        }
+        else if (binaryOp->getOperator().type == MUL) {
+            return leftValue * rightValue;
+        }
+        else if (binaryOp->getOperator().type == DIV) {
+            if (leftValue == 0 || rightValue == 0)
+            {
+                return 0;
+            }
+            
+            return leftValue / rightValue;
+        }
+    }
+    else if (node->getType() == NUMBER_NODE) {
+        NumberNode* numberNode = static_cast<NumberNode*>(node);
+        return numberNode->getValue();
+    }
+    return 0; // Handle other node types as needed.
+}
 
 ASTNode* Parser::Expr() {
     return Term();
