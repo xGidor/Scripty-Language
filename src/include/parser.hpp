@@ -31,7 +31,7 @@ public:
 	ASTNode* Factor();
 	ASTNode* Term();
 	ASTNode* Expr();
-	float ParseAndCalculate();
+	int evaluateAST(ASTNode* node);
 	ASTNode* Parse();
 	
 };
