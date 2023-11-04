@@ -77,11 +77,11 @@ ASTNode* Parser::Term() {
     return node; // return our node.
 }
 
-int Parser::evaluateAST(ASTNode* node) {
+float Parser::evaluateAST(ASTNode* node) { // Traverse the nodes.
     if (node->getType() == BINARY_OP_NODE) {
         BinaryOpNode* binaryOp = static_cast<BinaryOpNode*>(node); // Get the type of the inherited class using a static cast. If its a binary op node continue.
-        int leftValue = evaluateAST(binaryOp->getLeft()); // Evaluates the left node of the Binary OP Node and gets its value using this function
-        int rightValue = evaluateAST(binaryOp->getRight()); // Evaluates the right node of the Binary OP Node and gets its value using this function
+        float leftValue = evaluateAST(binaryOp->getLeft()); // Evaluates the left node of the Binary OP Node and gets its value using this function
+        float rightValue = evaluateAST(binaryOp->getRight()); // Evaluates the right node of the Binary OP Node and gets its value using this function
         if (binaryOp->getOperator().type == PLUS) { // Check if the binary operation has a plus operator
             return leftValue + rightValue; // Execute the addition
         }

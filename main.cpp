@@ -44,7 +44,7 @@ void run(std::string text)
 
 	Parser parser = Parser(lex, lexResult.tokens); // Create our Parser Object.
 	ASTNode* root = parser.Parse(); // Parse our Lexed tokens and generate a syntax tree.
-	int result = parser.evaluateAST(root); // Traverse the Abstract Syntax Tree
+	float result = parser.evaluateAST(root); // Traverse the Abstract Syntax Tree
 
 	// Handle ParseResult
 
