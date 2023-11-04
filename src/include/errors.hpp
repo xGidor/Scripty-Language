@@ -14,6 +14,8 @@ public:
     std::string error_name;
     std::string details;
 
+    Error() {}
+
     Error(Position start, Position end, std::string name, std::string details) // Default error constructor.
         : pos_start(start), pos_end(end), error_name(name), details(details) {} 
 
@@ -22,13 +24,6 @@ public:
         result += "File " + pos_start.fn + ", line " + std::to_string(pos_start.ln + 1) + "\n";
         return result;
     }
-};
-
-// Error class used for Success Operations on the lexer..
-class NoError : public Error {
-public:
-    NoError(Position start, Position end, std::string details)
-        : Error(start, end, "NoError", details) {}
 };
 
 // When the lexer identifies an illegal character throw this error.
