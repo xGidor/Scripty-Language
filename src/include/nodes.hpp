@@ -15,10 +15,25 @@ using json = nlohmann::json;
 //    void visitExpression(ExpressionNode node);
 //};
 
+enum ASTNodeType {
+    NUMBER_NODE,
+    STRING_NODE,
+    UNARY_OP_NODE,
+    BINARY_OP_NODE,
+    // Add other node types as needed
+};
 
 class ASTNode {
 public:
+    ASTNodeType nodeType;
     virtual json serialize() const = 0;
+
+    ASTNode() {}; // default Constructor for ASTNode
+    ASTNode(ASTNodeType type) : nodeType(type) {} // Parser Constructor for ASTNode
+
+    ASTNodeType getType() {
+        return nodeType; // Return the current node type
+    } 
 };
 
 class StringNode : public ASTNode {
@@ -30,14 +45,14 @@ class StringNode : public ASTNode {
         j["value"] = value;
         return j;
     }
-    StringNode(std::string text);
+    StringNode(std::string text) : ASTNode(STRING_NODE), value(text) {}
 };
 
 class NumberNode : public ASTNode { // Inherit the ASTNode class
 public:
     float value; // The value of the number node.
 
-    NumberNode(float val) : value(val) {}
+    NumberNode(float val) : ASTNode(NUMBER_NODE), value(val) {}
 
     json serialize() const override {
         json j;
@@ -53,12 +68,11 @@ public:
     static NumberNode* createNumberNodeInt(const Token& token) {
         return new NumberNode(std::stoi(token.value));
     }
-    float evaluate() { return value; }
 
-    NumberNode add(const NumberNode& other) const;
-    NumberNode subtract(const NumberNode& other) const;
-    NumberNode multiply(const NumberNode& other) const;
-    NumberNode divide(const NumberNode& other) const;
+    int getValue() {
+        return value;
+    }
+
 };
 
 
@@ -78,7 +92,7 @@ public:
         return new UnaryOpNode(op_token, node);
     }
 
-    UnaryOpNode(Token operator_token, ASTNode* node) : op(operator_token), op_node(node) {}
+    UnaryOpNode(Token operator_token, ASTNode* node) : ASTNode(UNARY_OP_NODE), op(operator_token), op_node(node) {}
 
 };
 
@@ -100,6 +114,17 @@ public:
         return new BinaryOpNode(op_token, left, right);
     }
 
-    BinaryOpNode(Token operator_token, ASTNode* leftnode, ASTNode* rightnode) : op(operator_token), left(leftnode), right(rightnode) {}
+    BinaryOpNode(Token operator_token, ASTNode* leftnode, ASTNode* rightnode) : ASTNode(BINARY_OP_NODE), op(operator_token), left(leftnode), right(rightnode) {}
+    
+    Token getOperator() {
+        return op;
+    }
 
+    ASTNode* getLeft() {
+        return left;
+    }
+
+    ASTNode* getRight() {
+        return right;
+    }
 };
