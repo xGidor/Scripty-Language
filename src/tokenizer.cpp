@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "tokenizer.hpp"
 #include <map>
+#include "include/tokenizer.hpp"
 
 // Token Constructor
 Token::Token(std::string type_, std::string value_, Position pos_start)
@@ -55,7 +55,7 @@ Token Lexer::MakeEquals()
 Token Lexer::makeString(char qt) {
 	std::string str = ""; // Set string to empty by def.
 	Position pos_start = position.copy();
-	bool escape_character = false; // No escape character in string by defauét
+	bool escape_character = false; // No escape character in string by defauï¿½t
 	Advance(); // Advance the lexer
 
 	std::map<char, char> escape_characters = {
@@ -210,15 +210,13 @@ LexerResult Lexer::MakeTokens()
 		{
 			Position start = position.copy();
 			Advance();
-			Error err = IllegalCharacterError(start, position, "Got unexpected token at: ");
-			LexerResult Result(tokens, err);
+			Error LexerError = IllegalCharacterError(start, position, "Got unexpected token at: ");
+			LexerResult Result(error, LexerError);
 			return Result; // return no tokens as we got an error
 		}
 	};
 	tokens.push_back(Token(EOFILE, "\0", position));
-	Position start = position.copy();
-	NoError NoneError(start, position, "Success."); // Construct a Success message to return with. This ensures that the program can continue to the Parser phase.
-	LexerResult Result(tokens, NoneError);
+	LexerResult Result(tokens, success);
 	return Result; // Return the results from the lexer;
 }
 

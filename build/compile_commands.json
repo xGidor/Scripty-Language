@@ -1,0 +1,26 @@
+[
+{
+  "directory": "C:/Users/kazik/source/repos/Scripty/Scripty/build",
+  "command": "D:\\MinGW\\bin\\g++.exe  @CMakeFiles/Scripty.dir/includes_CXX.rsp -g -o CMakeFiles\\Scripty.dir\\main.cpp.obj -c C:\\Users\\kazik\\source\\repos\\Scripty\\Scripty\\main.cpp",
+  "file": "C:/Users/kazik/source/repos/Scripty/Scripty/main.cpp",
+  "output": "CMakeFiles/Scripty.dir/main.cpp.obj"
+},
+{
+  "directory": "C:/Users/kazik/source/repos/Scripty/Scripty/build",
+  "command": "D:\\MinGW\\bin\\g++.exe  @CMakeFiles/Scripty.dir/includes_CXX.rsp -g -o CMakeFiles\\Scripty.dir\\src\\nodes.cpp.obj -c C:\\Users\\kazik\\source\\repos\\Scripty\\Scripty\\src\\nodes.cpp",
+  "file": "C:/Users/kazik/source/repos/Scripty/Scripty/src/nodes.cpp",
+  "output": "CMakeFiles/Scripty.dir/src/nodes.cpp.obj"
+},
+{
+  "directory": "C:/Users/kazik/source/repos/Scripty/Scripty/build",
+  "command": "D:\\MinGW\\bin\\g++.exe  @CMakeFiles/Scripty.dir/includes_CXX.rsp -g -o CMakeFiles\\Scripty.dir\\src\\parser.cpp.obj -c C:\\Users\\kazik\\source\\repos\\Scripty\\Scripty\\src\\parser.cpp",
+  "file": "C:/Users/kazik/source/repos/Scripty/Scripty/src/parser.cpp",
+  "output": "CMakeFiles/Scripty.dir/src/parser.cpp.obj"
+},
+{
+  "directory": "C:/Users/kazik/source/repos/Scripty/Scripty/build",
+  "command": "D:\\MinGW\\bin\\g++.exe  @CMakeFiles/Scripty.dir/includes_CXX.rsp -g -o CMakeFiles\\Scripty.dir\\src\\tokenizer.cpp.obj -c C:\\Users\\kazik\\source\\repos\\Scripty\\Scripty\\src\\tokenizer.cpp",
+  "file": "C:/Users/kazik/source/repos/Scripty/Scripty/src/tokenizer.cpp",
+  "output": "CMakeFiles/Scripty.dir/src/tokenizer.cpp.obj"
+}
+]

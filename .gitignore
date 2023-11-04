@@ -1,1 +1,5 @@
 /x64/*
+/build/bin/*
+/.vscode/*
+/build/.cmake/*
+/build/CMakeFiles/*
