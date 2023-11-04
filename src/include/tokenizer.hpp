@@ -5,6 +5,11 @@
 #include <vector>
 #include "errors.hpp"
 
+enum LexResult
+{
+	success,
+	error,
+};
 
 // Token types and Digits
 const std::string IDENTIFIER = "IDENTIFIER";
@@ -65,10 +70,14 @@ public:
 struct LexerResult {
 public:
 	std::vector<Token> tokens; // Specify the template argument as 'Token'
+	LexResult result;
 	Error error;
 
-	LexerResult(std::vector<Token> t, Error e)
-		: tokens(t), error(e) {}
+	LexerResult(std::vector<Token> t, LexResult l)
+		: tokens(t), result(l) {}
+
+	LexerResult(LexResult l, Error e)
+		: result(l), error(e) {}
 };
 
 // Base class of the lexer with function declarations
