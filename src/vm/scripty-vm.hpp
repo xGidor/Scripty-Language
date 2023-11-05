@@ -19,6 +19,19 @@
 #define GET_CONST() constants[READ_BYTE()]
 
 /**
+ * Binary Operations
+*/
+#define BINARY_OP(op)            \
+  do                             \
+  {                              \
+    auto op2 = AS_NUMBER(pop()); \
+    auto op1 = AS_NUMBER(pop()); \
+    push(NUMBER(op1 op op2));    \
+  } while (false);
+  
+
+
+/**
  * Stack Top (Overflow after exceeding)
 */
 #define STACK_LIMIT 512
