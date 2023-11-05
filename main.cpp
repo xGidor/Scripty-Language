@@ -54,10 +54,10 @@ void run(std::string text)
 
 
 	// Debug Stuff
-	//for (int i = 0; i < tokens.size(); i++) 
-	//{
-	//	std::cout << tokens[i] << " " << std::endl;
-	//}
+	for (int i = 0; i < lexResult.tokens.size(); i++) 
+	{
+		std::cout << lexResult.tokens[i] << " " << std::endl;
+	}
 
 }
 

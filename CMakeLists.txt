@@ -17,6 +17,8 @@ include_directories(
     src/parser
     src/position
     src/tokenizer
+    src/vm
+    src/vm/bytecode
 )
 
 # Create an executable target
