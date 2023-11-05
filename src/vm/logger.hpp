@@ -1,6 +1,6 @@
 // Logger and Error message reporter
-#ifndef Logger_h
-#define Logger_h
+#ifndef Logger_hpp
+#define Logger_hpp
 
 #include <sstream>
 

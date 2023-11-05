@@ -2,7 +2,7 @@
 #include <vector>
 #include <stack>
 #include "scripty-vm.hpp"
-#include "logger.h"
+#include "logger.hpp"
 #include "values.h"
 
 /*
