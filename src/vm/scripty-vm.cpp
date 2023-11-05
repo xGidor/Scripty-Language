@@ -5,20 +5,45 @@
 #include "logger.h"
 #include "values.h"
 
-void StackVM::eval()
+/*
+*Push values onto the stack
+*/
+void StackVM::push(const ScriptyValue& value)
+{
+    if (sp == stack.end())
+    {
+        DIE << "push(): Stack Overflow!\n";
+    }
+    
+    *sp = value;
+    sp++;
+}
+
+/**
+ * Pop values from the stack
+*/
+ScriptyValue StackVM::pop()
+{   
+    if (sp == stack.begin())
+    {
+        DIE << "pop(): Empty Stack!\n";
+    }
+    
+    --sp;
+    return *sp;
+}
+
+ScriptyValue StackVM::eval()
 {
     for(;;)
     {   
         auto opcode = READ_BYTE();
-        log(opcode);
         switch (opcode)
         {
         case OP_HALT:
-            return;
+            return pop();
         case OP_CONST:
-            auto constIndex = READ_BYTE();
-            auto constant = constants[constIndex];
-            push(constant);
+            push(GET_CONST());
             break;
         default:
             DIE << "Unknown opcode: " << std::hex << opcode;
@@ -26,7 +51,7 @@ void StackVM::eval()
     }
 }
 
-void StackVM::exec(const std::string &program)
+ScriptyValue StackVM::exec(const std::string &program)
 {   
     /*Parse the program & Compile program to Scripty Bytecode */
     
@@ -37,17 +62,22 @@ void StackVM::exec(const std::string &program)
     // Set instruction pointer.
     ip = &code[0];
 
+    // Initialize the stackpointer
+    sp = &stack[0];
+
     return eval();
 }
 
-int main(int argc, char const *argv)
+int main()
 {
     StackVM vm;
-    vm.exec(R"(
+    auto result = vm.exec(R"(
 
         42
 
     )");
+
+    log(AS_NUMBER(result));
 
     std::cout << "All Done!\n";
 
