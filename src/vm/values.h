@@ -15,12 +15,22 @@ struct ScriptyValue {
     ScriptyValueType type;
     union {
         double number;
-    }
+    };
 };
 
 /**------------------
  * Constructors
 */
-#define NUMBER(value) (ScriptyValue){ScriptyValueType::NUMBER, .number = value}
+inline ScriptyValue NUMBER(double value) {
+    ScriptyValue result;
+    result.type = ScriptyValueType::NUMBER;
+    result.number = value;
+    return result;
+}
+
+/**
+ * Accessors
+*/
+#define AS_NUMBER(ScriptyValue) ((double)(ScriptyValue).number)
 
 #endif
