@@ -33,6 +33,9 @@ ScriptyValue StackVM::pop()
     return *sp;
 }
 
+/**
+ * Evaluate the current bytecode.
+*/
 ScriptyValue StackVM::eval()
 {
     for(;;)
@@ -72,6 +75,9 @@ ScriptyValue StackVM::eval()
     }
 }
 
+/**
+ * Execute the current string/program (Not Implemented Yet)
+*/
 ScriptyValue StackVM::exec(const std::string &program)
 {   
     /*Parse the program & Compile program to Scripty Bytecode */
@@ -91,12 +97,16 @@ ScriptyValue StackVM::exec(const std::string &program)
     return eval();
 }
 
+
+/**
+ * Main VM Execution
+*/
 int main()
 {
     StackVM vm;
     auto result = vm.exec(R"(
 
-        42
+        asd
 
     )");
 

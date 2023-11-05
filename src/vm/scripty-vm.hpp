@@ -47,7 +47,7 @@ class StackVM {
     /* Executes the program */
     ScriptyValue exec(const std::string &program);
 
-    /*Main Eval Loop*/
+    /* Main Eval Loop */
     ScriptyValue eval();
 
     /* Instruction Pointer (Program Counter) */
