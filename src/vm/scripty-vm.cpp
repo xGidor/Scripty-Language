@@ -82,7 +82,7 @@ ScriptyValue StackVM::exec(const std::string &program)
 {   
     /*Parse the program & Compile program to Scripty Bytecode */
     
-    constants.push_back(FLOAT(10));
+    constants.push_back(FLOAT(10.0f));
     constants.push_back(INTEGER(3));
     constants.push_back(INTEGER(10));
     

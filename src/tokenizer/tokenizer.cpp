@@ -111,6 +111,19 @@ void Lexer::Advance()
 	current_character = (position.idx < text.length()) ? text[position.idx] : '\0'; 
 }
 
+Token Lexer::MakeIdentifier()
+{
+	std::string id_str = "";
+	Position pos_start = position.copy();
+	while (current_character != '\0' && (LETTERS_DIGITS.find(current_character) != std::string::npos || current_character == '_'))
+	{
+		id_str += current_character;
+		Advance();
+	}
+	std::string type = (KEYWORD.find(id_str) != KEYWORD.end()) ? KEYWORD_ : IDENTIFIER;
+	Token tok = Token(type, id_str, pos_start);
+	return tok;
+}
 
 // Method used to make a number token;
 Token Lexer::MakeNumber()
@@ -156,6 +169,9 @@ LexerResult Lexer::MakeTokens()
 		}
 		else if (DIGITS.find(current_character) != std::string::npos) {
 			tokens.push_back(MakeNumber()); // Add the number token to the tokens list;
+		}
+		else if (LETTERS.find(current_character) != std::string::npos) {
+			tokens.push_back(MakeIdentifier());
 		}
 		else if (current_character == '+') // Check if the current character of the lexer equals to a specific character.
 		{

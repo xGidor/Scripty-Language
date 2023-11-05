@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <set>
 #include "../errors/errors.hpp"
 
 enum LexResult
@@ -12,10 +13,12 @@ enum LexResult
 };
 
 // Token types and Digits
-const std::string LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz";
+const std::string LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+const std::string DIGITS = "0123456789";
+const std::string LETTERS_DIGITS = LETTERS + DIGITS;
 
 const std::string IDENTIFIER = "IDENTIFIER";
-const std::string DIGITS = "0123456789";
+const std::string KEYWORD_ = "KEYWORD";
 const std::string INT = "INT";
 const std::string FLOAT = "FLOAT";
 const std::string STRING = "STRING";
@@ -38,8 +41,11 @@ const std::string RCURLY = "RIGHT_CURLYBRACKET";
 const std::string EOFILE = "END_OF_FILE";
 const std::string TOKEN_ERROR = "INVALID_TOKEN";
 
-const std::string KEYWORD[] = {
+const std::set<std::string> KEYWORD = {
 	"let",
+	"int",
+	"float",
+	"string",
 	"if",
 	"else",
 	"elif",
@@ -95,6 +101,7 @@ public:
 	void Advance();
 	LexerResult MakeTokens();
 	Token MakeNumber();
+	Token MakeIdentifier();
 	Token MakeEquals();
 	Token makeString(char qt);
 };
