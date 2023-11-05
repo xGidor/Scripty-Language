@@ -5,7 +5,7 @@
 #include <vector>
 #include <array>
 
-#include "OpCode.h"
+#include "bytecode/OpCode.h"
 #include "values.h"
 
 /**
@@ -45,7 +45,6 @@ class StackVM {
 
     /* Stack Operands */
     std::array<ScriptyValue, STACK_LIMIT> stack;
-
 
     /* Constant Pool */
     std::vector<ScriptyValue> constants;
