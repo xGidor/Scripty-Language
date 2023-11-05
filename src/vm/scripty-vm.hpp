@@ -14,6 +14,11 @@
 #define READ_BYTE() *ip++
 
 /**
+ * Get Constant from the pool
+*/
+#define GET_CONST() constants[READ_BYTE()]
+
+/**
  * Stack Top (Overflow after exceeding)
 */
 #define STACK_LIMIT 512
@@ -22,19 +27,21 @@ class StackVM {
   public:
     StackVM() {}
 
-    void push(ScriptyValue value);
+    /* Stack Operations */
+    void push(const ScriptyValue& value);
+    ScriptyValue pop();
 
     /* Executes the program */
-    void exec(const std::string &program);
+    ScriptyValue exec(const std::string &program);
 
     /*Main Eval Loop*/
-    void eval();
+    ScriptyValue eval();
 
     /* Instruction Pointer (Program Counter) */
     uint8_t* ip;
 
     /* Stack Pointer */
-    uint8_t* sp;
+    ScriptyValue* sp;
 
     /* Stack Operands */
     std::array<ScriptyValue, STACK_LIMIT> stack;
