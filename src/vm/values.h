@@ -1,11 +1,15 @@
 #ifndef ScriptyValues_h
 #define ScriptyValues_h
 
+#include <cstring>
+#include <cmath>
+
 /**
  * Scripty Value Type
 */
 enum class ScriptyValueType {
-    NUMBER,
+    INTEGER,
+    FLOAT,
     STRING,
 };
 
@@ -15,17 +19,23 @@ enum class ScriptyValueType {
 struct ScriptyValue {
     ScriptyValueType type;
     union {
-        double number;
-        std::string text;
+        float number;
+        char* text;
     };
 };
 
 /**------------------
  * Constructors
 */
-inline ScriptyValue NUMBER(double value) {
+inline ScriptyValue INTEGER(int value) {
     ScriptyValue result;
-    result.type = ScriptyValueType::NUMBER;
+    result.type = ScriptyValueType::INTEGER;
+    result.number = std::floor(value);
+    return result;
+}
+inline ScriptyValue FLOAT(float value) {
+    ScriptyValue result;
+    result.type = ScriptyValueType::FLOAT;
     result.number = value;
     return result;
 }
@@ -33,15 +43,17 @@ inline ScriptyValue NUMBER(double value) {
 inline ScriptyValue STRING(std::string value) {
     ScriptyValue result;
     result.type = ScriptyValueType::STRING;
-    result.text = value;
+    result.text = new char[value.length() + 1];
+    strcpy(result.text, value.c_str());
     return result;
 }
 
 /**
- * Accessors
+ * Accessorss
 */
-#define AS_NUMBER(ScriptyValue) ((double)(ScriptyValue).number) // Number accessor
-#define AS_STRING(ScriptyValue) ((std::string)(ScriptyValue).text) // String accessor
+#define AS_INT(ScriptyValue) ((int)(ScriptyValue).number) // Number accessor (int)
+#define AS_FLOAT(ScriptyValue) ((float)(ScriptyValue).number) // Number accessor (float)
+#define AS_STRING(ScriptyValue) ((char[])(ScriptyValue).text) // String accessor
 
 
 #endif

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <array>
+#include <cmath>
+
 
 #include "bytecode/OpCode.h"
 #include "values.h"
@@ -21,15 +23,19 @@
 /**
  * Binary Operations
 */
-#define BINARY_OP(op)            \
-  do                             \
-  {                              \
-    auto op2 = AS_NUMBER(pop()); \
-    auto op1 = AS_NUMBER(pop()); \
-    push(NUMBER(op1 op op2));    \
+#define BINARY_OP(op)                           \
+  do                                            \
+  {                                             \
+    float op2 = AS_FLOAT(pop());                 \
+    float op1 = AS_FLOAT(pop());                 \
+    float result = op1 op op2;                  \
+    if (std::floor(result) == result) {         \
+      push(INTEGER(result));                    \
+    } else {                                    \
+      push(FLOAT(result));                      \
+    }                                           \
   } while (false);
   
-
 
 /**
  * Stack Top (Overflow after exceeding)

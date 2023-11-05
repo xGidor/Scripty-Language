@@ -82,11 +82,11 @@ ScriptyValue StackVM::exec(const std::string &program)
 {   
     /*Parse the program & Compile program to Scripty Bytecode */
     
-    constants.push_back(NUMBER(10));
-    constants.push_back(NUMBER(3));
-    constants.push_back(NUMBER(10));
-
-    code = {OP_CONST, 0, OP_CONST, 1, OP_MUL, OP_CONST, 2, OP_SUB OP_HALT};
+    constants.push_back(FLOAT(10));
+    constants.push_back(INTEGER(3));
+    constants.push_back(INTEGER(10));
+    
+    code = {OP_CONST, 0, OP_CONST, 1, OP_MUL, OP_CONST, 2, OP_SUB, OP_HALT};
 
     // Set instruction pointer.
     ip = &code[0];
@@ -110,7 +110,7 @@ int main()
 
     )");
 
-    log(AS_NUMBER(result));
+    log(AS_FLOAT(result));
 
     std::cout << "All Done!\n";
 
