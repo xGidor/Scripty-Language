@@ -19,6 +19,25 @@
 #define OP_DIV 0x04
 
 /**
+ * Return and break statements
+*/
+#define OP_RETURN_VALUE 0x05
+#define OP_BREAK_LOOP 0x06
+
+/**
+ * Class and functions
+*/
+#define OP_BUILD_CLASS 0x07
+#define OP_MAKE_FUNCTION 0x08
+#define OP_CALL_FUNCTION 0x09
+#define OP_BUILD_CLASS 0x10
+
+/**
+ * For Loops
+*/
+#define OP_FOR_LOOP 0x11
+
+/**
  * stops the program
 */
 #define OP_HALT 0xff
