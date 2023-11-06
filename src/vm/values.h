@@ -49,7 +49,7 @@ inline ScriptyValue STRING(std::string value) {
 }
 
 /**
- * Accessorss
+ * Accessors
 */
 #define AS_INT(ScriptyValue) ((int)(ScriptyValue).number) // Number accessor (int)
 #define AS_FLOAT(ScriptyValue) ((float)(ScriptyValue).number) // Number accessor (float)

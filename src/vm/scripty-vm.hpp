@@ -21,19 +21,31 @@
 #define GET_CONST() constants[READ_BYTE()]
 
 /**
+ * Load Constant from the pool (same as get_const for now)
+*/
+#define LOAD_CONST() constants[READ_BYTE()]
+
+
+/**
  * Binary Operations
 */
-#define BINARY_OP(op)                           \
+#define INTOP(op)                               \
   do                                            \
   {                                             \
-    float op2 = AS_FLOAT(pop());                 \
-    float op1 = AS_FLOAT(pop());                 \
+    auto op2 = AS_INT(pop());                   \
+    auto op1 = AS_INT(pop());                   \
+    int result = op1 op op2;                    \
+    push(INTEGER(result));                      \
+  } while (false);
+  
+
+#define FLOATOP(op)                             \
+  do                                            \
+  {                                             \
+    auto op2 = AS_FLOAT(pop());                 \
+    auto op1 = AS_FLOAT(pop());                 \
     float result = op1 op op2;                  \
-    if (std::floor(result) == result) {         \
-      push(INTEGER(result));                    \
-    } else {                                    \
-      push(FLOAT(result));                      \
-    }                                           \
+    push(FLOAT(result));                        \
   } while (false);
   
 

@@ -14,7 +14,7 @@ void StackVM::push(const ScriptyValue& value)
     {
         DIE << "push(): Stack Overflow!\n";
     }
-    
+
     *sp = value;
     sp++;
 }
@@ -43,30 +43,55 @@ ScriptyValue StackVM::eval()
         auto opcode = READ_BYTE();
         switch (opcode)
         {
-        case OP_HALT:
+        case HALT:
             return pop();
-        case OP_CONST: // constants
+            
+        case ILOAD : case FLOAD : case SLOAD : case LLOAD : case ALOAD : case ZLOAD : // type variable loading
+            push(LOAD_CONST());
+            break;
+
+        case ICONST : case FCONST : case SCONST : case LCONST : case ACONST : case ZCONST : // type constants
             push(GET_CONST());
             break;
 
+
         // Math operations
-        case OP_ADD: {// Addition instructions
-            BINARY_OP(+);
+        case IADD: {// Addition instructions for INT
+            INTOP(+);
             break;
         }
 
-        case OP_SUB: {// Subtract instructions
-            BINARY_OP(-);
+        case ISUB: {// Subtract instructions for INT
+            INTOP(-);
             break;
         }
 
-        case OP_MUL: {// Multiply instructions
-            BINARY_OP(*);
+        case IMUL: {// Multiply instructions for INT
+            INTOP(*);
             break;
         }
 
-        case OP_DIV: {// Division instructions
-            BINARY_OP(/);
+        case IDIV: {// Division instructions for INT
+            INTOP(/);
+            break;
+        }
+        case FADD: {// Addition instructions for FLOAT
+            FLOATOP(+);
+            break;
+        }
+
+        case FSUB: {// Subtract instructions for FLOAT
+            FLOATOP(-);
+            break;
+        }
+
+        case FMUL: {// Multiply instructions for FLOAT
+            FLOATOP(*);
+            break;
+        }
+
+        case FDIV: {// Division instructions for FLOAT
+            FLOATOP(/);
             break;
         }
         default:
@@ -86,7 +111,7 @@ ScriptyValue StackVM::exec(const std::string &program)
     constants.push_back(INTEGER(3));
     constants.push_back(INTEGER(10));
     
-    code = {OP_CONST, 0, OP_CONST, 1, OP_MUL, OP_CONST, 2, OP_SUB, OP_HALT};
+    code = {ICONST, 2, FCONST, 0, ICONST, 1, FMUL, ILOAD, 2, FSUB, HALT};
 
     // Set instruction pointer.
     ip = &code[0];
