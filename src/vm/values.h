@@ -11,10 +11,11 @@ enum class ScriptyValueType {
     INTEGER,
     FLOAT,
     STRING,
+    LIST
 };
 
 /**
- * Scripty Value tagged as number
+ * Scripty Value
 */
 struct ScriptyValue {
     ScriptyValueType type;
