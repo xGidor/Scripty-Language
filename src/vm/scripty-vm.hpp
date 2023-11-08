@@ -14,6 +14,7 @@
  * Reads the next byte in the bytecode and advances the Instruction Pointer
 */
 #define READ_BYTE() *ip++
+#define UNREAD_BYTE() *ip--
 
 /**
  * Get Constant from the pool
@@ -61,6 +62,8 @@ class StackVM {
     /* Stack Operations */
     void push(const ScriptyValue& value);
     ScriptyValue pop();
+    
+    ScriptyValue peek();
 
     /* Executes the program */
     ScriptyValue exec(const std::string &program);

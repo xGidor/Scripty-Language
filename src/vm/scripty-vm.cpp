@@ -34,6 +34,19 @@ ScriptyValue StackVM::pop()
 }
 
 /**
+ * Inspect top value without popping it.
+*/
+ScriptyValue StackVM::peek() 
+{
+    if (sp == stack.begin()) {
+        DIE << "peek(): Empty Stack!\n";
+    }
+    
+    return *(sp - 1);  // Access the value at the top of the stack without popping it.
+}
+
+
+/**
  * Evaluate the current bytecode.
 */
 ScriptyValue StackVM::eval()
@@ -46,8 +59,12 @@ ScriptyValue StackVM::eval()
         case HALT:
             return pop();
             
-        case ILOAD : case FLOAD : case SLOAD : case LLOAD : case ALOAD : case ZLOAD : // type variable loading
-            push(LOAD_CONST());
+        case ISTORE : case FSTORE : case SSTORE : case LSTORE : case ASTORE : case ZSTORE :
+            // Need to implement local variable storing.
+            break;
+        
+        case ILOAD : case FLOAD : case SLOAD : case LLOAD : case ALOAD : case ZLOAD : // type variable loading (basically copying to the top of the stack)
+            //push(LOAD_CONST()); // need to implement local variables
             break;
 
         case ICONST : case FCONST : case SCONST : case LCONST : case ACONST : case ZCONST : // type constants
@@ -138,6 +155,5 @@ int main()
     log(AS_FLOAT(result));
 
     std::cout << "All Done!\n";
-
     return 0;
 }
