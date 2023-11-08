@@ -71,7 +71,15 @@ ScriptyValue StackVM::eval()
             push(GET_CONST());
             break;
 
+        case CALLFUNC:
+            break;
 
+        case MCLASS:
+            break;
+
+        case MFUNC:
+            break;
+            
         // Math operations
         case IADD: {// Addition instructions for INT
             INTOP(+);

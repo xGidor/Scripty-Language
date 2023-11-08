@@ -60,26 +60,33 @@
 #define FSUB 0x5d
 #define FMUL 0x6d
 #define FDIV 0x7d
-
+#define SADD 0x8d
+#define SSUB 0x9d
+#define SMUL 0xd1
+#define SDIV 0xd2
+#define LADD 0xd3
+#define LSUB 0xd4
+#define LMUL 0xd5
+#define LDIV 0xd6
 
 /**
  * Return and break statements
 */
-#define RETURN_VALUE 0x01
-#define BREAK_LOOP 0x02
+#define RETURN 0x01 // Used for returning.
+#define BREAK 0x02 // Used for breaking a loop
 
 /**
  * Class and functions
 */
-#define MAKE_FUNCTION 0x03
-#define CALL_FUNCTION 0x04
-#define BUILD_CLASS 0x05
+#define MFUNC 0x03 // Used for making a function
+#define CALLFUNC 0x04 // Used for calling a function
+#define MCLASS 0x05 // Used for making a class
 #define STORE_NAME 0x06
 
 /**
  * For Loops
 */
-#define FOR_LOOP 0x07
+#define FORLOOP 0x07
 
 /**
  * stops the program
