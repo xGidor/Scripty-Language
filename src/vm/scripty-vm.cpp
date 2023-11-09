@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <stack>
+#include <cctype> 
+
 #include "scripty-vm.hpp"
 #include "logger.hpp"
 #include "values.h"
@@ -61,10 +63,12 @@ ScriptyValue StackVM::eval()
             return pop();
             
         case ISTORE : case FSTORE : case SSTORE : case LSTORE : case ASTORE : case ZSTORE :
+            DIE << "NOT_IMPLEMENTED()\n";
             // Need to implement local variable storing.
             break;
         
         case ILOAD : case FLOAD : case SLOAD : case LLOAD : case ALOAD : case ZLOAD : // type variable loading (basically copying to the top of the stack)
+            DIE << "NOT_IMPLEMENTED()\n";
             //push(LOAD_CONST()); // need to implement local variables
             break;
 
@@ -72,27 +76,25 @@ ScriptyValue StackVM::eval()
             push(GET_CONST());
             break;
 
+        /* Call a function object */
         case CALLFUNC:
+            DIE << "NOT_IMPLEMENTED()\n";
             break;
 
-        case MCLASS:
-            auto nameValue = pop();
-
-            // Implement fields and method creation
-            
-            ScriptyClass* makeClass;
-            if(nameValue.type != ScriptyValueType::STRING)
-            {    
-                DIE << "MakeClass(): Encountered invalid value type for name.\n";
+        /* Create a class object */
+        case MCLASS: {
+            ScriptyValue stackValue = pop();
+            ScriptyClass* newClass;
+            if (stackValue.type != ScriptyValueType::STRING)
+            {
+                DIE << "MCLASS(): Value mismatch!\n";
             }
-            makeClass->name = nameValue.text;
+            newClass->name = stackValue.text;
 
-            classes.push_back(*makeClass);
-            break;
+            classes.push_back(*newClass);
 
-        case MFUNC:
             break;
-            
+        }
         // Math operations
         case IADD: {// Addition instructions for INT
             INTOP(+);
@@ -132,6 +134,38 @@ ScriptyValue StackVM::eval()
             FLOATOP(/);
             break;
         }
+
+        /* Make a function object */
+        case MFUNC: {
+        //    int parameters = READ_BYTE(); // Read how many parameters do wee need.
+        //    std::vector<ScriptyParameter> paramVector(parameters); // so if we have 2 parameters it should pass in 1 right?
+//
+        //    READ_BYTE();
+        //    std::string functionName = pop().text;
+        //    
+        //    for (size_t i = 0; i < parameters; i++)
+        //    {
+        //        auto currCode = READ_BYTE();
+        //        if (currCode == ICONST)
+        //        {
+        //            auto nextCode = READ_BYTE();
+        //            if (nextCode != INULL)
+        //            {
+        //            
+        //            }
+        //            
+        //        }
+        //        ScriptyValue stackVarValue = pop();
+        //        ScriptyValue stackVarName = pop();
+        //        ScriptyParameter* param;
+        //        param->name = stackVarName.text;
+        //       // param->type
+//
+        //       paramVector[i] = *param;
+        //    }
+        //    
+            break;
+        }
         default:
             DIE << "Unknown opcode: " << std::hex << opcode;
         }
@@ -145,11 +179,28 @@ ScriptyValue StackVM::exec(const std::string &program)
 {   
     /*Parse the program & Compile program to Scripty Bytecode */
     
-    constants.push_back(FLOAT(10.0f));
-    constants.push_back(INTEGER(3));
-    constants.push_back(INTEGER(10));
-    
-    code = {ICONST, 2, FCONST, 0, ICONST, 1, FMUL, ILOAD, 2, FSUB, HALT};
+    //constants.push_back(FLOAT(10.0f));
+    //constants.push_back(INTEGER(3));
+    //constants.push_back(INTEGER(10));
+    constants.push_back(STRING("Main"));
+    constants.push_back(STRING("a")); // varname a
+    constants.push_back(INTEGER(2)); // default parameter for b
+    constants.push_back(STRING("b")); // varname b
+
+    code = {
+        MFUNC, 2, // 2 means 2 parameters
+        SCONST, 0, // Function name "Main".
+
+        ICONST, INULL,// Value for first parameter variable, pushing empty constant defaults to null
+        SCONST, 1, // Get the name for the first parameter "a"
+
+        ICONST, 2, // Value for second parameter
+        SCONST, 3, // Get the name for the second parameter "b"
+
+        HALT
+    };
+
+    //code = {ICONST, 2, FCONST, 0, ICONST, 1, FMUL, ILOAD, 2, FSUB, HALT};
 
     // Set instruction pointer.
     ip = &code[0];
