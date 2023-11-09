@@ -54,7 +54,7 @@ inline ScriptyValue STRING(std::string value) {
 */
 #define AS_INT(ScriptyValue) ((int)(ScriptyValue).number) // Number accessor (int)
 #define AS_FLOAT(ScriptyValue) ((float)(ScriptyValue).number) // Number accessor (float)
-#define AS_STRING(ScriptyValue) ((char[])(ScriptyValue).text) // String accessor
+#define AS_STRING(ScriptyValue) ((char*)(ScriptyValue).text) // String accessor
 
 
 #endif
