@@ -9,6 +9,7 @@
 
 #include "bytecode/OpCode.h"
 #include "values.h"
+#include "types.h"
 
 /**
  * Reads the next byte in the bytecode and advances the Instruction Pointer
@@ -79,6 +80,12 @@ class StackVM {
 
     /* Stack Operands */
     std::array<ScriptyValue, STACK_LIMIT> stack;
+
+    /* Program Methods */
+    std::vector<ScriptyFunction> functions;
+
+    /* Program Classes */
+    std::vector<ScriptyClass> classes;
 
     /* Constant Pool */
     std::vector<ScriptyValue> constants;
