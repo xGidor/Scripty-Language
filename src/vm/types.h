@@ -4,10 +4,6 @@
 
 #include "values.h"
 
-struct ScriptyVariable {
-    std::string name;       // The name of the variable
-    ScriptyValue value;    // The value of the variable
-};
 
 struct Frame {
     // Local variables, including parameters
@@ -19,10 +15,18 @@ struct Frame {
     }
 };
 
+// Variable Struct
+struct ScriptyVariable {
+    std::string name;       // The name of the variable
+    ScriptyValue value;    // The value of the variable
+    ScriptyValueType type; // The type of the parameter (even tho its stored in the scriptyValue its good to also have it here)
+};
+
 // Value Parameters
 struct ScriptyParameter {
     std::string name;  // The name of the parameter
     ScriptyValueType type;  // The data type of the parameter
+    ScriptyValue defaultValue; // The default value of the parameter
 };
 
 // Class Type Definition
