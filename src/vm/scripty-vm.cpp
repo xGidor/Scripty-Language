@@ -4,6 +4,7 @@
 #include "scripty-vm.hpp"
 #include "logger.hpp"
 #include "values.h"
+#include "types.h"
 
 /*
 *Push values onto the stack
