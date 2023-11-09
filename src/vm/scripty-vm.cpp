@@ -135,6 +135,18 @@ ScriptyValue StackVM::eval()
             break;
         }
 
+        case PUTFIELD: {
+            if (classes.size() == 0)
+            {
+                DIE << "PutField(): No class were declared.\n";
+            }
+            
+            ScriptyValue stackValue = pop();
+
+            classes.back().fields.push_back(stackValue);
+            break;
+        }
+
         /* Make a function object */
         case MFUNC: {
         //    int parameters = READ_BYTE(); // Read how many parameters do wee need.
