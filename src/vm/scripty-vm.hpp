@@ -9,11 +9,13 @@
 
 #include "bytecode/OpCode.h"
 #include "values.h"
+#include "types.h"
 
 /**
  * Reads the next byte in the bytecode and advances the Instruction Pointer
 */
 #define READ_BYTE() *ip++
+#define UNREAD_BYTE() *ip--
 
 /**
  * Get Constant from the pool
@@ -21,19 +23,31 @@
 #define GET_CONST() constants[READ_BYTE()]
 
 /**
+ * Load Constant from the pool (same as get_const for now)
+*/
+#define LOAD_CONST() constants[READ_BYTE()]
+
+
+/**
  * Binary Operations
 */
-#define BINARY_OP(op)                           \
+#define INTOP(op)                               \
   do                                            \
   {                                             \
-    float op2 = AS_FLOAT(pop());                 \
-    float op1 = AS_FLOAT(pop());                 \
+    auto op2 = AS_INT(pop());                   \
+    auto op1 = AS_INT(pop());                   \
+    int result = op1 op op2;                    \
+    push(INTEGER(result));                      \
+  } while (false);
+  
+
+#define FLOATOP(op)                             \
+  do                                            \
+  {                                             \
+    auto op2 = AS_FLOAT(pop());                 \
+    auto op1 = AS_FLOAT(pop());                 \
     float result = op1 op op2;                  \
-    if (std::floor(result) == result) {         \
-      push(INTEGER(result));                    \
-    } else {                                    \
-      push(FLOAT(result));                      \
-    }                                           \
+    push(FLOAT(result));                        \
   } while (false);
   
 
@@ -49,6 +63,8 @@ class StackVM {
     /* Stack Operations */
     void push(const ScriptyValue& value);
     ScriptyValue pop();
+    
+    ScriptyValue peek();
 
     /* Executes the program */
     ScriptyValue exec(const std::string &program);
@@ -64,6 +80,12 @@ class StackVM {
 
     /* Stack Operands */
     std::array<ScriptyValue, STACK_LIMIT> stack;
+
+    /* Program Methods */
+    std::vector<ScriptyFunction> functions;
+
+    /* Program Classes */
+    std::vector<ScriptyClass> classes;
 
     /* Constant Pool */
     std::vector<ScriptyValue> constants;

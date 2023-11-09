@@ -7,6 +7,7 @@ set(SOURCES
     src/nodes/nodes.cpp
     src/parser/parser.cpp
     src/tokenizer/tokenizer.cpp
+    #src/vm/scripty-vm.cpp
 )
 
 # Specify the include directories, including the one within the "src" directory
