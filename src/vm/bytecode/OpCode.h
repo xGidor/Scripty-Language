@@ -70,27 +70,32 @@
 #define LDIV 0xd6
 
 /**
- * Return and break statements
-*/
-#define RETURN 0x01 // Used for returning.
-#define BREAK 0x02 // Used for breaking a loop
-
-/**
  * Class and functions
 */
-#define MFUNC 0x03 // Used for making a function
-#define CALLFUNC 0x04 // Used for calling a function
-#define MCLASS 0x05 // Used for making a class
-#define STORE_NAME 0x06
+#define MFUNC 0x01 // Used for making a function
+#define CALLFUNC 0x02 // Used for calling a function
+#define MCLASS 0x03 // Used for making a class
+#define PUTFIELD 0x04 // Used for adding a constant to the class.
 
 /**
  * For Loops
 */
-#define FORLOOP 0x07
+#define FORLOOP 0x05
+
+/**
+ * Return and break statements
+*/
+#define IRETURN 0x06 // Used for returning int values.
+#define FRETURN 0x07 // Used for returning float values.
+#define SRETURN 0x08 // Used for returning string values.
+#define ZRETURN 0x09 // Used for returning bool values.
+#define LRETURN 0x10 // Used for returning list values.
+#define BREAK 0x11 // Used for breaking a loop
 
 /**
  * stops the program
 */
+#define INULL 0x12
 #define HALT 0xff
 
 
