@@ -87,7 +87,7 @@ ScriptyValue StackVM::eval()
             ScriptyClass* newClass;
             if (stackValue.type != ScriptyValueType::STRING)
             {
-                DIE << "MCLASS(): Value mismatch!\n";
+                DIE << "MakeClass(): Value mismatch!\n";
             }
             newClass->name = stackValue.text;
 
@@ -149,33 +149,62 @@ ScriptyValue StackVM::eval()
 
         /* Make a function object */
         case MFUNC: {
-        //    int parameters = READ_BYTE(); // Read how many parameters do wee need.
-        //    std::vector<ScriptyParameter> paramVector(parameters); // so if we have 2 parameters it should pass in 1 right?
-//
-        //    READ_BYTE();
-        //    std::string functionName = pop().text;
-        //    
-        //    for (size_t i = 0; i < parameters; i++)
-        //    {
-        //        auto currCode = READ_BYTE();
-        //        if (currCode == ICONST)
-        //        {
-        //            auto nextCode = READ_BYTE();
-        //            if (nextCode != INULL)
-        //            {
-        //            
-        //            }
-        //            
-        //        }
-        //        ScriptyValue stackVarValue = pop();
-        //        ScriptyValue stackVarName = pop();
-        //        ScriptyParameter* param;
-        //        param->name = stackVarName.text;
-        //       // param->type
-//
-        //       paramVector[i] = *param;
-        //    }
-        //    
+            int parameters = READ_BYTE(); // Read how many parameters do we need.
+            std::vector<ScriptyParameter> paramVector(parameters); // Create a temporary Vector to store the parameters int.
+
+            ScriptyValue stackValue = pop(); // Pop our name Value from the top of the stack.
+            if (stackValue.type != ScriptyValueType::STRING)
+                DIE << "MakeFunc(): Value mismatch!\n";
+
+            ScriptyFunction* newMethod; // Create the new function base.
+            newMethod->name = stackValue.text;  // Set the function name.
+
+            for (size_t i = 0; i < parameters; i++)
+            {   
+                ScriptyParameter* param; // Create a new parameter instance
+                ScriptyValue stackNameVal = pop(); // pop the top value from the stack which is expected to be a string, aka the name of the parameter
+                if (stackNameVal.type != ScriptyValueType::STRING)
+                    DIE << "MakeFunc().MakeParams(): Value mismatch!\n";
+                
+                ScriptyValue stackValueVal = pop(); // pop the top value from the stack which could be any value.
+                param->name = stackNameVal.text; // Set the parameter name
+                param->type = stackValueVal.type; // Set the parameter type
+                if (stackValueVal.type != param->type)
+                    DIE << "MakeFunc().MakeParams(): Value mismatch!\n";
+                
+                param->defaultValue = stackValueVal; // Set the default value to the popped value constant
+
+                paramVector.push_back(*param); // Push the parameter to the paramVector list.
+            }
+
+            newMethod->parameters = paramVector; // set the new vector to newMethod() parameters vector
+
+            switch (READ_BYTE()) // Read the next byte which should specify the return type of the function.
+            {
+            case IRETURN:
+                newMethod->returnType = ScriptyValueType::INTEGER;
+                break;
+            case FRETURN:
+                newMethod->returnType = ScriptyValueType::FLOAT;
+                break;
+            case SRETURN:
+                newMethod->returnType = ScriptyValueType::STRING;
+                break;
+            case ZRETURN:
+                DIE << "NOT_IMPLEMENTED()\n";
+                break;
+            case LRETURN:
+                DIE << "NOT_IMPLEMENTED()\n";
+                break;           
+            case VOIDRETURN:
+                newMethod->returnType = ScriptyValueType::NONETYPE;
+                break;
+            default:
+                newMethod->returnType = ScriptyValueType::NONETYPE;
+                break;
+            }            
+
+            functions.push_back(*newMethod); // push the new function to the MethodTable
             break;
         }
         default:
@@ -195,21 +224,18 @@ ScriptyValue StackVM::exec(const std::string &program)
     //constants.push_back(INTEGER(3));
     //constants.push_back(INTEGER(10));
     constants.push_back(STRING("Main"));
-    constants.push_back(NONE());
+    constants.push_back(NONE()); // we can push nonetype to not have default parameter for the func for example.
     constants.push_back(STRING("a")); // varname a
     constants.push_back(INTEGER(2)); // default parameter for b
     constants.push_back(STRING("b")); // varname b
 
     code = {
-        MFUNC, 2, // 2 means 2 parameters
+        ICONST, 1, // Value for first parameter
+        SCONST, 2, // Get the name for the first parameter "a"
+        ICONST, 3, // Value for second parameter
+        SCONST, 4, // Get the name for the second parameter "b"
         SCONST, 0, // Function name "Main".
-
-        ICONST, 0,// Value for first parameter variable, pushing empty constant defaults to null
-        SCONST, 1, // Get the name for the first parameter "a"
-
-        ICONST, 2, // Value for second parameter
-        SCONST, 3, // Get the name for the second parameter "b"
-
+        MFUNC, 2, VOIDRETURN, // 2 means 2 parameters
         HALT
     };
 
