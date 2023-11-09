@@ -76,6 +76,7 @@
 #define CALLFUNC 0x02 // Used for calling a function
 #define MCLASS 0x03 // Used for making a class
 #define PUTFIELD 0x04 // Used for adding a constant to the class.
+#define PUTFUNC 0xf4 // Used for adding a function to the class.
 
 /**
  * For Loops
@@ -90,12 +91,12 @@
 #define SRETURN 0x08 // Used for returning string values.
 #define ZRETURN 0x09 // Used for returning bool values.
 #define LRETURN 0x10 // Used for returning list values.
-#define BREAK 0x11 // Used for breaking a loop
+#define VOIDRETURN 0x11 // Used for returning void/no values.
+#define BREAK 0x12 // Used for breaking a loop
 
 /**
  * stops the program
 */
-#define INULL 0x12
 #define HALT 0xff
 
 
