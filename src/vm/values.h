@@ -11,7 +11,8 @@ enum class ScriptyValueType {
     INTEGER,
     FLOAT,
     STRING,
-    LIST
+    LIST,
+    NULL_TYPE
 };
 
 /**
@@ -25,15 +26,25 @@ struct ScriptyValue {
     };
 };
 
-/**------------------
- * Constructors
-*/
+
+/* Value Type Constructors */
+/* Null Value Type*/
+inline ScriptyValue NULL_()
+{
+    ScriptyValue result;
+    result.type = ScriptyValueType::NULL_TYPE;
+    return result;
+}
+
+/* Integer Value Type*/
 inline ScriptyValue INTEGER(int value) {
     ScriptyValue result;
     result.type = ScriptyValueType::INTEGER;
     result.number = std::floor(value);
     return result;
 }
+
+/* Float Value Type*/
 inline ScriptyValue FLOAT(float value) {
     ScriptyValue result;
     result.type = ScriptyValueType::FLOAT;
@@ -41,6 +52,7 @@ inline ScriptyValue FLOAT(float value) {
     return result;
 }
 
+/* String Value Type*/
 inline ScriptyValue STRING(std::string value) {
     ScriptyValue result;
     result.type = ScriptyValueType::STRING;
