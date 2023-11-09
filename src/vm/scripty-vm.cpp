@@ -75,6 +75,18 @@ ScriptyValue StackVM::eval()
             break;
 
         case MCLASS:
+            auto nameValue = pop();
+
+            // Implement fields and method creation
+            
+            ScriptyClass* makeClass;
+            if(nameValue.type != ScriptyValueType::STRING)
+            {    
+                DIE << "MakeClass(): Encountered invalid value type for name.\n";
+            }
+            makeClass->name = nameValue.text;
+
+            classes.push_back(*makeClass);
             break;
 
         case MFUNC:
