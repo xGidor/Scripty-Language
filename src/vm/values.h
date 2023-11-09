@@ -12,7 +12,7 @@ enum class ScriptyValueType {
     FLOAT,
     STRING,
     LIST,
-    NULL_TYPE
+    NONETYPE
 };
 
 /**
@@ -28,11 +28,11 @@ struct ScriptyValue {
 
 
 /* Value Type Constructors */
-/* Null Value Type*/
-inline ScriptyValue NULL_()
+/* Null/NoneType Value Type*/
+inline ScriptyValue NONE()
 {
     ScriptyValue result;
-    result.type = ScriptyValueType::NULL_TYPE;
+    result.type = ScriptyValueType::NONETYPE;
     return result;
 }
 

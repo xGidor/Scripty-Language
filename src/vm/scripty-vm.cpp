@@ -195,6 +195,7 @@ ScriptyValue StackVM::exec(const std::string &program)
     //constants.push_back(INTEGER(3));
     //constants.push_back(INTEGER(10));
     constants.push_back(STRING("Main"));
+    constants.push_back(NONE());
     constants.push_back(STRING("a")); // varname a
     constants.push_back(INTEGER(2)); // default parameter for b
     constants.push_back(STRING("b")); // varname b
@@ -203,7 +204,7 @@ ScriptyValue StackVM::exec(const std::string &program)
         MFUNC, 2, // 2 means 2 parameters
         SCONST, 0, // Function name "Main".
 
-        ICONST, INULL,// Value for first parameter variable, pushing empty constant defaults to null
+        ICONST, 0,// Value for first parameter variable, pushing empty constant defaults to null
         SCONST, 1, // Get the name for the first parameter "a"
 
         ICONST, 2, // Value for second parameter
