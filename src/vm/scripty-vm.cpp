@@ -135,15 +135,24 @@ ScriptyValue StackVM::eval()
             break;
         }
 
+        /* Puts a method into a classes function list */
+        case PUTFUNC: {
+            if (classes.size() == 0)
+                DIE << "PutFunc(): No class were declared.\n";
+
+            if(methods.size() == 0)
+                DIE << "PutFunc(): No method were declared.\n";
+            
+            classes.back().fields.push_back(methods.back());
+            break;
+        }
+            
+        /* Puts a variable into a classes field list */
         case PUTFIELD: {
             if (classes.size() == 0)
-            {
                 DIE << "PutField(): No class were declared.\n";
-            }
             
-            ScriptyValue stackValue = pop();
-
-            classes.back().fields.push_back(stackValue);
+            classes.back().methods.push_back(stackValue);
             break;
         }
 
@@ -235,7 +244,8 @@ ScriptyValue StackVM::exec(const std::string &program)
         ICONST, 3, // Value for second parameter
         SCONST, 4, // Get the name for the second parameter "b"
         SCONST, 0, // Function name "Main".
-        MFUNC, 2, VOIDRETURN, // 2 means 2 parameters
+        MFUNC, 2, // 2 means 2 parameters
+        VOIDRETURN, // MFUNC return type
         HALT
     };
 
