@@ -140,10 +140,10 @@ ScriptyValue StackVM::eval()
             if (classes.size() == 0)
                 DIE << "PutFunc(): No class were declared.\n";
 
-            if(methods.size() == 0)
+            if (functions.size() == 0)
                 DIE << "PutFunc(): No method were declared.\n";
             
-            classes.back().fields.push_back(methods.back());
+            classes.back().methods.push_back(functions.back());
             break;
         }
             
@@ -152,7 +152,8 @@ ScriptyValue StackVM::eval()
             if (classes.size() == 0)
                 DIE << "PutField(): No class were declared.\n";
             
-            classes.back().methods.push_back(stackValue);
+            ScriptyValue stackValue = pop();
+            classes.back().fields.push_back(stackValue);
             break;
         }
 
