@@ -1,21 +1,22 @@
 #include <iostream>
-#include <string>
 #include "src/tokenizer/tokenizer.hpp"
 #include "src/parser/parser.hpp"
 
+using std::string, std::cout, std::getline;
+
 //std::vector<Token> Run(std::string text);
 
-void run(std::string text);
+void run(string text);
 
 // Main Program Loop
 int main() {
 
 	for (;;) // Infinite Program Loop
 	{
-		std::string* input;
-		input = new std::string;
-		std::cout << "Scripty > ";
-		std::getline(std::cin, *input);
+		string* input;
+		input = new string;
+		cout << "Scripty > ";
+		getline(std::cin, *input);
 
 		run(*input);
 
@@ -30,12 +31,12 @@ int LexerCheck(LexerResult result) // Function for checking errors during lexing
 	if (result.result == LexResult::success) // Checks if the Lexing Result was a success
 		return 1; // Return True
 	
-	std::cout << result.error.as_string(); // Generate the error message if it was not a success.
+	cout << result.error.as_string(); // Generate the error message if it was not a success.
 	return 0; // Return false
 }
 
 
-void run(std::string text)
+void run(string text)
 {
 	Lexer lex = Lexer("<program>", text); // Create our lexer with a filename (For console it's <program>) and the file contents
 	LexerResult lexResult = lex.MakeTokens(); // Make tokens from the file text.
@@ -48,7 +49,7 @@ void run(std::string text)
 
 	// Handle ParseResult
 
-	std::cout << result << std::endl;
+	cout << result << '\n';
 
 
 
@@ -56,7 +57,7 @@ void run(std::string text)
 	// Debug Stuff
 	for (int i = 0; i < lexResult.tokens.size(); i++) 
 	{
-		std::cout << lexResult.tokens[i] << " " << std::endl;
+		cout << lexResult.tokens[i] << " \n";
 	}
 
 }
