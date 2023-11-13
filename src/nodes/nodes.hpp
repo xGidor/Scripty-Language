@@ -20,6 +20,7 @@ enum ASTNodeType {
     STRING_NODE,
     UNARY_OP_NODE,
     BINARY_OP_NODE,
+    VAR_ASSIGN_NODE,
     // Add other node types as needed
 };
 
@@ -35,6 +36,23 @@ public:
         return nodeType; // Return the current node type
     } 
 };
+
+class VarAssignNode : public ASTNode {
+    std::string name;
+    ScriptyValue value;
+    ScriptyValueType type;
+
+    json serialize() const override {
+        json j;
+        j["type"] = "VarAssign";
+        j["name"] = name;
+        j["varType"] = type;
+        j["value"] = value;
+        return j;
+    }
+
+    StringNode(std::string text, ScriptyValue value, ScriptyValueType typ) : ASTNode(VAR_ASSIGN_NODE), name(text), value(value), type(typ) {}    
+}
 
 class StringNode : public ASTNode {
     std::string value;
