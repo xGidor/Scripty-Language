@@ -29,7 +29,7 @@ struct ScriptyValue {
 
 /* Value Type Constructors */
 /* Null/NoneType Value Type*/
-inline ScriptyValue NONE()
+inline ScriptyValue NONE_()
 {
     ScriptyValue result;
     result.type = ScriptyValueType::NONETYPE;
@@ -37,7 +37,7 @@ inline ScriptyValue NONE()
 }
 
 /* Integer Value Type*/
-inline ScriptyValue INTEGER(int value) {
+inline ScriptyValue INTEGER_(int value) {
     ScriptyValue result;
     result.type = ScriptyValueType::INTEGER;
     result.number = std::floor(value);
@@ -45,7 +45,7 @@ inline ScriptyValue INTEGER(int value) {
 }
 
 /* Float Value Type*/
-inline ScriptyValue FLOAT(float value) {
+inline ScriptyValue FLOAT_(float value) {
     ScriptyValue result;
     result.type = ScriptyValueType::FLOAT;
     result.number = value;
@@ -53,7 +53,7 @@ inline ScriptyValue FLOAT(float value) {
 }
 
 /* String Value Type*/
-inline ScriptyValue STRING(std::string value) {
+inline ScriptyValue STRING_(std::string value) {
     ScriptyValue result;
     result.type = ScriptyValueType::STRING;
     result.text = new char[value.length() + 1];

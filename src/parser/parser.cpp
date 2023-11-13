@@ -13,7 +13,7 @@ void Parser::Eat(std::string token_type)
 {   
 	if (current_token.type == token_type) { // Verifies the current token to be the one passed into our function
 		current_token = Get_Next_Token(); // Get the next token if we could verify the correct token.
-        //std::cout << current_token.type << std::endl; // Print out the token type for debug purposes.
+        //std::cout << current_token.type << '\n'; // Print out the token type for debug purposes.
 	}
 	else {
 		//error();

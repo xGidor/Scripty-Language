@@ -241,15 +241,15 @@ ScriptyValue StackVM::exec(const std::string &program)
     //constants.push_back(FLOAT(10.0f));
     //constants.push_back(INTEGER(3));
     //constants.push_back(INTEGER(10));
-    constants.push_back(STRING("Person"));
+    constants.push_back(STRING_("Person"));
 
-    constants.push_back(STRING("Main"));
-    constants.push_back(STRING("age"));
-    constants.push_back(INTEGER(5));
-    constants.push_back(NONE()); 
-    constants.push_back(STRING("a")); 
-    constants.push_back(INTEGER(2));
-    constants.push_back(STRING("b")); 
+    constants.push_back(STRING_("Main"));
+    constants.push_back(STRING_("age"));
+    constants.push_back(INTEGER_(5));
+    constants.push_back(NONE_()); 
+    constants.push_back(STRING_("a")); 
+    constants.push_back(INTEGER_(2));
+    constants.push_back(STRING_("b")); 
 
     code = {
         SCONST, 0, // class name "person"

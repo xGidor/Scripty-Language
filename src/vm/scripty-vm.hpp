@@ -37,7 +37,7 @@
     auto op2 = AS_INT(pop());                   \
     auto op1 = AS_INT(pop());                   \
     int result = op1 op op2;                    \
-    push(INTEGER(result));                      \
+    push(INTEGER_(result));                      \
   } while (false);
   
 
@@ -47,7 +47,7 @@
     auto op2 = AS_FLOAT(pop());                 \
     auto op1 = AS_FLOAT(pop());                 \
     float result = op1 op op2;                  \
-    push(FLOAT(result));                        \
+    push(FLOAT_(result));                        \
   } while (false);
   
 
