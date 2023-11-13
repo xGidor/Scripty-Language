@@ -2,6 +2,8 @@
 #include <vector>
 #include "../json/json.hpp" // C++ Json lib
 #include "../tokenizer/tokenizer.hpp"
+#include "../vm/types.h"
+#include "../vm/values.h"
 
 using json = nlohmann::json;
 
@@ -21,6 +23,7 @@ enum ASTNodeType {
     UNARY_OP_NODE,
     BINARY_OP_NODE,
     VAR_ASSIGN_NODE,
+    VAR_ACCESS_NODE,
     // Add other node types as needed
 };
 
@@ -37,24 +40,39 @@ public:
     } 
 };
 
+class VarAccessNode : public ASTNode {
+public:
+    Token var_name_token; // Identifier Token
+
+    json serialize() const override {
+        json j;
+        j["type"] = "VarAccess";
+        j["name"] = var_name_token.value;
+        return j;
+    } 
+
+    VarAccessNode(Token tok) : ASTNode(VAR_ACCESS_NODE), var_name_token(tok) {}
+};
+
 class VarAssignNode : public ASTNode {
-    std::string name;
+public:
+    Token var_name_token; // Identifier Token
     ScriptyValue value;
     ScriptyValueType type;
 
     json serialize() const override {
         json j;
         j["type"] = "VarAssign";
-        j["name"] = name;
+        j["name"] = var_name_token.value;
         j["varType"] = type;
-        j["value"] = value;
         return j;
     }
 
-    StringNode(std::string text, ScriptyValue value, ScriptyValueType typ) : ASTNode(VAR_ASSIGN_NODE), name(text), value(value), type(typ) {}    
-}
+    VarAssignNode(Token tok, ScriptyValue value, ScriptyValueType typ) : ASTNode(VAR_ASSIGN_NODE), var_name_token(tok), value(value), type(typ) {}    
+};
 
 class StringNode : public ASTNode {
+public:
     std::string value;
 
     json serialize() const override {
