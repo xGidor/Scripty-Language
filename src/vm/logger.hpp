@@ -6,7 +6,7 @@
 
 class ErrorLogMessage : public std::basic_ostringstream<char> {
 public:
-    ~ErrorLogMessage() {
+    virtual ~ErrorLogMessage() {
         fprintf(stderr, "Fatal error: &s\n", str().c_str());
         exit(EXIT_FAILURE);
     }
@@ -14,7 +14,7 @@ public:
 
 class WarningLogMessage : public std::basic_ostringstream<char> {
 public:
-    ~WarningLogMessage() {
+    virtual ~WarningLogMessage() {
         fprintf(stderr, "Warning: &s\n", str().c_str());    
     }
 };

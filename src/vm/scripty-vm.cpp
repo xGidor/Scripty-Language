@@ -226,6 +226,7 @@ ScriptyValue StackVM::eval()
         }
         default:
             DIE << "Unknown opcode: " << std::hex << opcode;
+            break;
         }
     }
 }
@@ -289,7 +290,7 @@ int main()
         asd
 
     )");
-
+    
     log(AS_FLOAT(result));
 
     std::cout << "All Done!\n";
