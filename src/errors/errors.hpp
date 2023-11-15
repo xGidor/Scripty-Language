@@ -6,7 +6,33 @@
 
 #include "../position/position.hpp"
 
-// Base Error class
+// Error class used for handling parsing errors.
+class ParseError {
+public:
+    Token token_bef;
+    Token token_at;
+    std::string error_name;
+    std::string details;
+
+    ParseError() {}
+
+    ParseError(Token bef, Token at, std::string name, std::string details)
+        : token_bef(bef), token_at(at), error_name(name), details(details) {}
+
+    std::string as_string() { // Construct a nice human readable error with strings.
+        std::string result = error_name + ": " + details + "\n";
+        result += "Unexpected token " + token_bef.type, + ":" + token_bef.value + " after token: " + token_at.type + ":" + token_at.value + "\n";
+        return result;
+    }
+};
+
+class VariableDeclarationError : public ParseError {
+public:
+    VariableDeclarationError(Token bef, Token at, std::string details)
+        : ParseError(bef, at, "Variable Declaration Error", details) {}
+};
+
+// Base Error class (mostly used during lexing)
 class Error {
 public:
     Position pos_start;
@@ -31,13 +57,6 @@ class IllegalCharacterError : public Error {
 public:
     IllegalCharacterError(Position start, Position end, std::string details)
         : Error(start, end, "Illegal Character", details) {}
-};
-
-// General class for Variable parsing error
-class VariableDeclarationError : public Error {
-public:
-    VariableDeclarationError(Position start, Position end, std::string name, std::string details)
-        : Error(start, end, name, details) {}
 };
 
 // When a syntax error happens fire this.
