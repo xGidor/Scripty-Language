@@ -9,8 +9,21 @@
 #include "../errors/errors.hpp"
 #include "../nodes/nodes.hpp"
 
-class ParseResult {
+enum ParsingResult
+{
+	success_,
+	error_,
+};
 
+struct ParseResult {
+	ParsingResult result;
+	Error error;
+
+	ParseResult(ParsingResult l)
+		: result(l) {} // Used for successfull parsing operations
+
+	ParseResult(ParsingResult l, Error e)
+		: result(l), error(e) {} // Used for parsing operations that encounters an error.
 };
 
 class Parser
@@ -27,7 +40,6 @@ public:
 	//Error error();
 	void Eat(std::string token_type);
 	Token Get_Next_Token();
-	ASTNode* VariableHandle(Token tok);
 	ASTNode* Atom();
 	ASTNode* Factor();
 	ASTNode* Term();

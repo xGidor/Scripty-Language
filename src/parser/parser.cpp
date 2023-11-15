@@ -8,6 +8,7 @@ Parser::Parser(Lexer lexer, std::vector<Token> tokens)
     token_list = tokens;
 }
 
+
 // Verifies tokens.
 void Parser::Eat(std::string token_type) 
 {   
@@ -27,8 +28,52 @@ Token Parser::Get_Next_Token()
     return token_list[token_index]; // Return the current token at our position.
 }
 
-ASTNode* Parser::Primary() {
+ASTNode* Parser::Atom() {
     Token token = current_token; // Set the local token to the current token.
+
+    if (token.type == KEYWORD_)
+    {   
+        Token varType = token;
+        Eat(KEYWORD_);
+
+        if (current_token.type == IDENTIFIER)
+        {
+            Token varName = token;
+            Eat(IDENTIFIER);
+            if (current_token.type == EQUALS)
+            {
+                Eat(EQUALS);
+                if (current_token.type != INT && current_token.type != FLOAT && current_token.type != STRING)
+                {
+                    return nullptr; // error
+                }
+                ASTNode* expression = Expr(); // Parse the expression to be assigned
+                
+                // Create a VariableAssignNode using the variable name and the expression
+                return VarAssignNode::createVariableAssignNode(varName, expression);
+            }
+            // else null variable decleared
+        }
+
+        return nullptr;// else error
+    } else if (token.type == IDENTIFIER) {
+        Token varName_ = token;
+        Eat(IDENTIFIER);
+
+        if (current_token.type == EQUALS)
+        {   
+            Eat(EQUALS);
+            if (current_token.type != INT && current_token.type != FLOAT && current_token.type != STRING)
+            {
+                return nullptr; // error
+            }
+            ASTNode* expression = Expr(); // Parse the expression to be assigned
+            // Create a VariableAssignNode using the variable name and the expression
+            return VarAssignNode::createVariableAssignNode(varName_, expression);
+        }
+        return VarAccessNode::createVariableAccessNode(token);
+    }
+
     if (token.type == FLOAT) { // Check if our current token is a float
         Eat(FLOAT);
         return NumberNode::createNumberNodeFloat(token); // Create a float Numbernode
@@ -47,7 +92,7 @@ ASTNode* Parser::Primary() {
     return nullptr; // Handle this case as needed.
 }
 ASTNode* Parser::Factor() {
-    ASTNode* node = Primary(); // Get our numbers or parenthesis expression
+    ASTNode* node = Atom(); // Get our numbers or parenthesis expression
     while (current_token.type == MUL || current_token.type == DIV) { // check for our multiplication or division tokens.
         Token token = current_token; // Set the local token to the current token.
         if (token.type == MUL) { // Check if our current token is a multiplication
@@ -56,7 +101,7 @@ ASTNode* Parser::Factor() {
         else if (token.type == DIV) { // Check if our current token is a civision
             Eat(DIV);
         }
-        ASTNode* right = Primary(); // Create another number and create a binary operation node
+        ASTNode* right = Atom(); // Create another number and create a binary operation node
         node = BinaryOpNode::createBinaryOpNode(token, node, right);
     }
     return node; // return our node.
@@ -76,6 +121,16 @@ ASTNode* Parser::Term() {
     }
     return node; // return our node.
 }
+
+ASTNode* Parser::Expr() {
+    return Term(); 
+}
+    
+ASTNode* Parser::Parse() {
+    current_token = Get_Next_Token(); // Get the first token of the file.
+    return Expr(); // Start the parser with an expression lookup.
+}
+
 
 float Parser::evaluateAST(ASTNode* node) { // Traverse the nodes.
     if (node->getType() == BINARY_OP_NODE) {
@@ -105,13 +160,4 @@ float Parser::evaluateAST(ASTNode* node) { // Traverse the nodes.
         return numberNode->getValue(); // Return the numbernode value.
     }
     return 0; // Handle other node types as needed.
-}
-
-ASTNode* Parser::Expr() {
-    return Term(); 
-}
-    
-ASTNode* Parser::Parse() {
-    current_token = Get_Next_Token(); // Get the first token of the file.
-    return Expr(); // Start the parser with an expression lookup.
 }

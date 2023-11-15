@@ -33,6 +33,13 @@ public:
         : Error(start, end, "Illegal Character", details) {}
 };
 
+// General class for Variable parsing error
+class VariableDeclarationError : public Error {
+public:
+    VariableDeclarationError(Position start, Position end, std::string name, std::string details)
+        : Error(start, end, name, details) {}
+};
+
 // When a syntax error happens fire this.
 class InvalidSyntaxError : public Error {
 public:
