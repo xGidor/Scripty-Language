@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
-
+#include "token.hpp"
 #include "../position/position.hpp"
 
 // Error class used for handling parsing errors.
@@ -13,23 +13,24 @@ public:
     Token token_at;
     std::string error_name;
     std::string details;
+    std::string expected;
 
     ParseError() {}
 
-    ParseError(Token bef, Token at, std::string name, std::string details)
-        : token_bef(bef), token_at(at), error_name(name), details(details) {}
+    ParseError(Token bef, Token at, std::string name, std::string details, std::string expected)
+        : token_bef(bef), token_at(at), error_name(name), details(details), expected(expected) {}
 
     std::string as_string() { // Construct a nice human readable error with strings.
         std::string result = error_name + ": " + details + "\n";
-        result += "Unexpected token " + token_bef.type, + ":" + token_bef.value + " after token: " + token_at.type + ":" + token_at.value + "\n";
+        result += "Unexpected token " + token_bef.type, + ":" + token_bef.value + " after token: " + token_at.type + ":" + token_at.value + "\n" + "Was expecting: " + expected + "\n";
         return result;
     }
 };
 
 class VariableDeclarationError : public ParseError {
 public:
-    VariableDeclarationError(Token bef, Token at, std::string details)
-        : ParseError(bef, at, "Variable Declaration Error", details) {}
+    VariableDeclarationError(Token bef, Token at, std::string details, std::string expected)
+        : ParseError(bef, at, "Variable Declaration Error", details, expected) {}
 };
 
 // Base Error class (mostly used during lexing)
