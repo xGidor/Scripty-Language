@@ -51,24 +51,29 @@ public:
         return j;
     } 
 
+    static VarAccessNode* createVariableAccessNode(Token tok) {
+        return new VarAccessNode(tok);
+    }
+
     VarAccessNode(Token tok) : ASTNode(VAR_ACCESS_NODE), var_name_token(tok) {}
 };
 
 class VarAssignNode : public ASTNode {
 public:
     Token var_name_token; // Identifier Token
-    ScriptyValue value;
-    ScriptyValueType type;
+    ASTNode* value;
 
     json serialize() const override {
         json j;
         j["type"] = "VarAssign";
         j["name"] = var_name_token.value;
-        j["varType"] = type;
+        j["node"] = value->getType();
         return j;
     }
-
-    VarAssignNode(Token tok, ScriptyValue value, ScriptyValueType typ) : ASTNode(VAR_ASSIGN_NODE), var_name_token(tok), value(value), type(typ) {}    
+    static VarAssignNode* createVariableAssignNode(Token tok, ASTNode* expr) {
+        return new VarAssignNode(tok, expr);
+    }
+    VarAssignNode(Token tok, ASTNode* value) : ASTNode(VAR_ASSIGN_NODE), var_name_token(tok), value(value) {}    
 };
 
 class StringNode : public ASTNode {

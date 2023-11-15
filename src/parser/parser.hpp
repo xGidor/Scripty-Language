@@ -27,7 +27,8 @@ public:
 	//Error error();
 	void Eat(std::string token_type);
 	Token Get_Next_Token();
-	ASTNode* Primary();
+	ASTNode* VariableHandle(Token tok);
+	ASTNode* Atom();
 	ASTNode* Factor();
 	ASTNode* Term();
 	ASTNode* Expr();
