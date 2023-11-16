@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "token.hpp"
+#include "../tokenizer/token.hpp"
 #include "../position/position.hpp"
 
 // Error class used for handling parsing errors.
@@ -22,7 +22,7 @@ public:
 
     std::string as_string() { // Construct a nice human readable error with strings.
         std::string result = error_name + ": " + details + "\n";
-        result += "Unexpected token " + token_bef.type, + ":" + token_bef.value + " after token: " + token_at.type + ":" + token_at.value + "\n" + "Was expecting: " + expected + "\n";
+        result += "Unexpected token " + token_bef.type, + ":" + token_bef.value + ", after token: " + token_at.type + ":" + token_at.value + "\n" + "Was expecting: " + expected + "\n";
         return result;
     }
 };
