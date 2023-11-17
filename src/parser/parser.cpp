@@ -38,40 +38,47 @@ ASTNode* Parser::Atom() {
 
         if (current_token.type == IDENTIFIER)
         {
-            Token varName = token;
+            Token varName = current_token;
             Eat(IDENTIFIER);
-            if (current_token.type == EQUALS)
+            if (current_token.type != EQUALS)
             {
-                Eat(EQUALS);
-                if (current_token.type != INT && current_token.type != FLOAT && current_token.type != STRING)
+                if (current_token.type == NEW_LINE)
                 {
-                    return nullptr; // error
+                    return VarAccessNode::createVariableAccessNode(varName);
                 }
-                ASTNode* expression = Expr(); // Parse the expression to be assigned
-                
-                // Create a VariableAssignNode using the variable name and the expression
-                return VarAssignNode::createVariableAssignNode(varName, expression);
+                return nullptr;
             }
-            // else null variable decleared
-        }
-
-        return nullptr;// else error
-    } else if (token.type == IDENTIFIER) {
-        Token varName_ = token;
-        Eat(IDENTIFIER);
-
-        if (current_token.type == EQUALS)
-        {   
             Eat(EQUALS);
             if (current_token.type != INT && current_token.type != FLOAT && current_token.type != STRING)
             {
                 return nullptr; // error
             }
             ASTNode* expression = Expr(); // Parse the expression to be assigned
+            
             // Create a VariableAssignNode using the variable name and the expression
-            return VarAssignNode::createVariableAssignNode(varName_, expression);
+            return VarAssignNode::createVariableAssignNode(varName, expression);  
         }
-        return VarAccessNode::createVariableAccessNode(token);
+
+        return nullptr;// else error
+    } else if (token.type == IDENTIFIER) {
+        Token varName_ = token;
+        Eat(IDENTIFIER);
+        if (current_token.type != EQUALS)
+        {
+            if (current_token.type == NEW_LINE)
+            {
+                return VarAccessNode::createVariableAccessNode(varName_);
+            }
+            return nullptr;
+        }
+        Eat(EQUALS);
+        if (current_token.type != INT && current_token.type != FLOAT && current_token.type != STRING)
+        {
+            return nullptr; // error
+        }
+        ASTNode* expression = Expr(); // Parse the expression to be assigned
+        // Create a VariableAssignNode using the variable name and the expression
+        return VarAssignNode::createVariableAssignNode(varName_, expression);
     }
 
     if (token.type == FLOAT) { // Check if our current token is a float
