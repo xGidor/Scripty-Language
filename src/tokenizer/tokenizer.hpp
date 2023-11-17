@@ -38,8 +38,9 @@ const std::string LPAREN = "LEFT_PARENTHESIS";
 const std::string RPAREN = "RIGHT_PARENTHESIS";
 const std::string LCURLY = "LEFT_CURLYBRACKET";
 const std::string RCURLY = "RIGHT_CURLYBRACKET";
-const std::string EOFILE = "END_OF_FILE";
+const std::string NEW_LINE = "NEW_LINE";
 const std::string TOKEN_ERROR = "INVALID_TOKEN";
+const std::string EOFILE = "END_OF_FILE";
 
 const std::set<std::string> KEYWORD = {
 	"let",

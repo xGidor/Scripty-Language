@@ -45,7 +45,7 @@ void run(std::string text)
 
 	// Handle ParseResult
 
-	std::cout << result << std::endl;
+	std::cout << result << "\n";;
 
 
 
@@ -53,7 +53,7 @@ void run(std::string text)
 	// Debug Stuff
 	for (int i = 0; i < lexResult.tokens.size(); i++) 
 	{
-		std::cout << lexResult.tokens[i] << " " << std::endl;
+		std::cout << lexResult.tokens[i] << " " << "\n";
 	}
 
 }

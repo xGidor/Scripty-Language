@@ -163,6 +163,20 @@ LexerResult Lexer::MakeTokens()
 		if (current_character == ' '  || current_character == '\t') {
 			Advance(); // Advance the lexer;
 		}
+		else if (current_character == '\n')
+		{
+			tokens.push_back(Token(NEW_LINE, ";", position));
+			Advance();
+		}
+		else if (current_character == ';')
+		{
+			tokens.push_back(Token(NEW_LINE, ";", position));
+			Advance(); 
+			while (current_character == '\n' || current_character == ';')
+			{
+				Advance(); // Advance another times so we dont add another ; to the token lists due to the \n character after ; if theres any
+			}
+		}
 		else if (current_character == '\'' || current_character == '\"')
 		{
 			tokens.push_back(makeString(current_character));
