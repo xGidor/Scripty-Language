@@ -17,12 +17,13 @@ enum ParsingResult
 
 struct ParseResult {
 	ParsingResult result;
-	Error error;
+	ASTNode* node;
+	ParseError error;
 
-	ParseResult(ParsingResult l)
-		: result(l) {} // Used for successfull parsing operations
+	ParseResult(ParsingResult l, ASTNode* n)
+		: result(l), node(n) {} // Used for successfull parsing operations
 
-	ParseResult(ParsingResult l, Error e)
+	ParseResult(ParsingResult l, ParseError e)
 		: result(l), error(e) {} // Used for parsing operations that encounters an error.
 };
 
@@ -40,12 +41,12 @@ public:
 	//Error error();
 	void Eat(std::string token_type);
 	Token Get_Next_Token();
-	ASTNode* Atom();
-	ASTNode* Factor();
-	ASTNode* Term();
-	ASTNode* Expr();
+	ParseResult Atom();
+	ParseResult Factor();
+	ParseResult Term();
+	ParseResult Expr();
 	float evaluateAST(ASTNode* node);
-	ASTNode* Parse();
+	ParseResult Parse();
 	
 };
 

@@ -163,9 +163,9 @@ LexerResult Lexer::MakeTokens()
 		if (current_character == ' '  || current_character == '\t') {
 			Advance(); // Advance the lexer;
 		}
-		else if (current_character == '\n')
+		else if (current_character == '\n') // automatic handling if its not there (later needs to be revised)
 		{
-			tokens.push_back(Token(NEW_LINE, ";", position));
+			tokens.push_back(Token(NEW_LINE, ";", position)); 
 			Advance();
 		}
 		else if (current_character == ';')

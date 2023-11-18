@@ -25,6 +25,7 @@ int main() {
 	return 0;
 }
 
+// Check if there was an error during the Lexing proccess
 int LexerCheck(LexerResult result) // Function for checking errors during lexing.
 {	
 	if (result.result == LexResult::success) // Checks if the Lexing Result was a success
@@ -40,8 +41,8 @@ void run(std::string text)
 	LexerResult lexResult = lex.MakeTokens(); // Make tokens from the file text.
 	if (LexerCheck(lexResult) == 0) { return; } // Check for errors during lexing process.
 	Parser parser = Parser(lex, lexResult.tokens); // Create our Parser Object.
-	ASTNode* root = parser.Parse(); // Parse our Lexed tokens and generate a syntax tree.
-	float result = parser.evaluateAST(root); // Traverse the Abstract Syntax Tree
+	ParseResult root = parser.Parse(); // Parse our Lexed tokens and generate a syntax tree.
+	float result = parser.evaluateAST(root.node); // Traverse the Abstract Syntax Tree
 
 	// Handle ParseResult
 

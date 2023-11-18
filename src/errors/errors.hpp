@@ -22,7 +22,7 @@ public:
 
     std::string as_string() { // Construct a nice human readable error with strings.
         std::string result = error_name + ": " + details + "\n";
-        result += "Unexpected token " + token_bef.type, + ":" + token_bef.value + ", after token: " + token_at.type + ":" + token_at.value + "\n" + "Was expecting: " + expected + "\n";
+        result += "Unexpected token '" + token_at.type + ":" + token_at.value + "', after token: '" + token_bef.type + ":" + token_bef.value + "'\n" + "Was expecting: " + expected + "\n";
         return result;
     }
 };
@@ -31,6 +31,12 @@ class VariableDeclarationError : public ParseError {
 public:
     VariableDeclarationError(Token bef, Token at, std::string details, std::string expected)
         : ParseError(bef, at, "Variable Declaration Error", details, expected) {}
+};
+
+class UnknownParsingError : public ParseError {
+public:
+    UnknownParsingError(Token bef, Token at, std::string details, std::string expected)
+        : ParseError(bef, at, "Fatal Parsing Error", details, expected) {}
 };
 
 // Base Error class (mostly used during lexing)
