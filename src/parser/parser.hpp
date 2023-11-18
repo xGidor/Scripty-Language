@@ -27,6 +27,17 @@ struct ParseResult {
 		: result(l), error(e) {} // Used for parsing operations that encounters an error.
 };
 
+bool CheckErrors(ParseResult result)
+{
+    if (result.result == error_)
+    {
+        std::cout << result.error.as_string();
+        exit(false);
+        return false;    
+    }
+    return true;
+}
+
 class Parser
 {
 public:

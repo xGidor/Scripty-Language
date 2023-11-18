@@ -8,17 +8,6 @@ Parser::Parser(Lexer lexer, std::vector<Token> tokens)
     token_list = tokens;
 }
 
-bool CheckErrors(ParseResult result)
-{
-    if (result.result == error_)
-    {
-        std::cout << result.error.as_string();
-        exit(false);
-        return false;    
-    }
-    return true;
-}
-
 // Verifies tokens.
 void Parser::Eat(std::string token_type) 
 {   
