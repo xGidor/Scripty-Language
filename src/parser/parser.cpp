@@ -26,10 +26,13 @@ void Parser::Eat(std::string token_type)
 {   
 	if (current_token.type == token_type) { // Verifies the current token to be the one passed into our function
 		current_token = Get_Next_Token(); // Get the next token if we could verify the correct token.
-        //std::cout << current_token.type << '\n'; // Print out the token type for debug purposes.
 	}
 	else {
-		//error();
+        /* Create an error if we get an invalid token */
+        ParseError err = VariableDeclarationError(current_token, current_token, "Parser(): Invalid token passed.\n", token_type); 
+        err.details += "Parser(): Invalid token passed: '" + err.token_at.type + "'\nWas expecting: '" + err.expected + "'\n"; 
+        std::cout << err.as_string();
+        exit(false);
 	}
 }
 
