@@ -42,16 +42,14 @@ void run(std::string text)
 	if (LexerCheck(lexResult) == 0) { return; } // Check for errors during lexing process.
 	Parser parser = Parser(lex, lexResult.tokens); // Create our Parser Object.
 	ParseResult root = parser.Parse(); // Parse our Lexed tokens and generate a syntax tree.
-	if(CheckErrors(root))
-	{
-		float result = parser.evaluateAST(root.node); // Traverse the Abstract Syntax Tree
-		
-		std::cout << result << "\n";;
 
-		// Debug Stuff
-		for (int i = 0; i < lexResult.tokens.size(); i++) 
-		{
-			std::cout << lexResult.tokens[i] << " " << "\n";
-		}
+	float result = parser.evaluateAST(root.node); // Traverse the Abstract Syntax Tree
+		
+	std::cout << result << "\n";;
+
+	// Debug Stuff
+	for (int i = 0; i < lexResult.tokens.size(); i++) 
+	{
+		std::cout << lexResult.tokens[i] << " " << "\n";
 	}
 }

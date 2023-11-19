@@ -1,12 +1,25 @@
 #include <string>
 #include "parser.hpp"
 
+// check errors each parseresult.
+bool CheckErrors(ParseResult result)
+{
+    if (result.result == error_)
+    {
+        std::cout << result.error.as_string();
+        exit(false);
+        return false;    
+    }
+    return true;
+}
+
 // Base constructor for the Parser class.
 Parser::Parser(Lexer lexer, std::vector<Token> tokens)
 {
 	lex = lexer;
     token_list = tokens;
 }
+
 
 // Verifies tokens.
 void Parser::Eat(std::string token_type) 
@@ -42,20 +55,32 @@ ParseResult Parser::Atom() {
             if (current_token.type != EQUALS)
             {
                 if (current_token.type == NEW_LINE || current_token.type == EOFILE)
-                {
+                {   
+                    if(varType.value == "let")
+                    {
+                        ParseError err = VariableDeclarationError(varName, current_token, "Usage of let keyword without assigning a value.\n", "a value");
+                        err.details += "Was expecting: " + err.expected + "\n"; 
+                        ParseResult result = ParseResult(error_, err);
+                        return result;
+                    }
+
                     ASTNode* node_ = VarAccessNode::createVariableAccessNode(varName);
                     ParseResult result = ParseResult(success_, node_);
                     return result;
                 }
-                ParseError err = VariableDeclarationError(varName, current_token, "Got unexpected token", "'=' or ';'");
+                ParseError err = VariableDeclarationError(varName, current_token, "Got an unexpected token at: '", "'=' or ';'");
+                err.details = "Got an unexpected token at: '" + err.token_at.type + ":" + err.token_at.value + "', after " + err.token_bef.type + ":" + err.token_bef.value + "'\n";
+                err.details += "Was expecting: " + err.expected + "\n"; 
                 ParseResult result = ParseResult(error_, err);
                 return result;
             }
             Token currentEq = current_token;
             Eat(EQUALS);
-            if (current_token.type != INT && current_token.type != FLOAT && current_token.type != STRING && current_token.type != EOFILE)
+            if (current_token.type != INT && current_token.type != FLOAT && current_token.type != STRING && current_token.type != EOFILE && current_token.type != IDENTIFIER)
             {
-                ParseError err = VariableDeclarationError(currentEq, current_token, "Got unexpected token", "value types: integer, string or float");
+                ParseError err = VariableDeclarationError(currentEq, current_token, "Got an unexpected value type: ", "value types: integer, string, float or a variable");
+                err.details = "Got an unexpected value type: '" + err.token_at.type + ":" + err.token_at.value + "'\n";
+                err.details += "Was expecting: " + err.expected + "\n"; 
                 ParseResult result = ParseResult(error_, err);
                 return result;
             }
@@ -66,7 +91,9 @@ ParseResult Parser::Atom() {
             return result;
         }
 
-        ParseError err = VariableDeclarationError(varType, current_token, "Got unexpected token", "an Identifier");
+        ParseError err = VariableDeclarationError(varType, current_token, "Got an unexpected token: ", "an Identifier");
+        err.details = "Got an unexpected token: '" + err.token_at.type + ":" + err.token_at.value + "'\n";
+        err.details += "Was expecting: " + err.expected + "\n"; 
         ParseResult result = ParseResult(error_, err);
         return result;
 
@@ -81,15 +108,19 @@ ParseResult Parser::Atom() {
                 ParseResult result = ParseResult(success_, node_);
                 return result;
             }
-            ParseError err = VariableDeclarationError(varName_, current_token, "Got unexpected token", "'=' or ';'");
+            ParseError err = VariableDeclarationError(varName_, current_token, "Got an unexpected token: ", "'=' or ';'");
+            err.details = "Got an unexpected token at: '" + err.token_at.type + ":" + err.token_at.value + "', after " + err.token_bef.type + ":" + err.token_bef.value + "'\n";
+            err.details += "Was expecting: " + err.expected + "\n"; 
             ParseResult result = ParseResult(error_, err);
             return result;
         }
         Token currentEq = current_token;
         Eat(EQUALS);
-        if (current_token.type != INT && current_token.type != FLOAT && current_token.type != STRING && current_token.type != EOFILE)
+        if (current_token.type != INT && current_token.type != FLOAT && current_token.type != STRING && current_token.type != EOFILE && current_token.type != IDENTIFIER)
         {
-            ParseError err = VariableDeclarationError(currentEq, current_token, "Got unexpected token", "value types: integer, string or float");
+            ParseError err = VariableDeclarationError(currentEq, current_token, "Got an unexpected value type:", "value types: integer, string, float or an identifier");
+            err.details = "Got an unexpected value type: '" + err.token_at.type + ":" + err.token_at.value + "'\n";
+            err.details += "Was expecting: " + err.expected + "\n"; 
             ParseResult result = ParseResult(error_, err);
             return result;
         }
@@ -121,6 +152,7 @@ ParseResult Parser::Atom() {
     }
     // Handle other cases or raise an error for invalid input.
     ParseError err = UnknownParsingError(current_token, Token("None", "None", lex.position), "Got unexpected token", "'Variable Declaration', 'Variable Access', 'integer', 'float' or a 'string'");
+    err.details += "Was expecting: " + err.expected + "\n"; 
     ParseResult result = ParseResult(error_, err);
     return result;
 }
@@ -167,12 +199,16 @@ ParseResult Parser::Term() {
 }
 
 ParseResult Parser::Expr() {
-    return Term(); 
+    ParseResult res = Term(); 
+    if(CheckErrors(res))
+        return res;
 }
     
 ParseResult Parser::Parse() {
     current_token = Get_Next_Token(); // Get the first token of the file.
-    return Expr(); // Start the parser with an expression lookup.
+    ParseResult res = Expr();
+    if(CheckErrors(res))
+        return res; // Start the parser with an expression lookup.
 }
 
 

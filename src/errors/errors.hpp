@@ -12,8 +12,8 @@ public:
     Token token_bef;
     Token token_at;
     std::string error_name;
-    std::string details;
     std::string expected;
+    std::string details = "Unexpected token '" + token_at.type + ":" + token_at.value + "', after token: '" + token_bef.type + ":" + token_bef.value + "'\n" + "Was expecting: " + expected + "\n";
 
     ParseError() {}
 
@@ -21,8 +21,7 @@ public:
         : token_bef(bef), token_at(at), error_name(name), details(details), expected(expected) {}
 
     std::string as_string() { // Construct a nice human readable error with strings.
-        std::string result = error_name + ": " + details + "\n";
-        result += "Unexpected token '" + token_at.type + ":" + token_at.value + "', after token: '" + token_bef.type + ":" + token_bef.value + "'\n" + "Was expecting: " + expected + "\n";
+        std::string result = error_name + ":\n" + details + "\n";
         return result;
     }
 };
@@ -37,6 +36,12 @@ class UnknownParsingError : public ParseError {
 public:
     UnknownParsingError(Token bef, Token at, std::string details, std::string expected)
         : ParseError(bef, at, "Fatal Parsing Error", details, expected) {}
+};
+
+class DivisionByZeroError : public ParseError {
+public:
+    DivisionByZeroError(Token bef, Token at, std::string details, std::string expected)
+        : ParseError(bef, at, "Division by zero", details, expected) {}
 };
 
 // Base Error class (mostly used during lexing)
