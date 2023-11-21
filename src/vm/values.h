@@ -12,7 +12,8 @@ enum class ScriptyValueType {
     FLOAT,
     STRING,
     LIST,
-    NONETYPE
+    NONETYPE,
+    UNDEFINED,
 };
 
 /**
@@ -33,6 +34,14 @@ inline ScriptyValue NONE_()
 {
     ScriptyValue result;
     result.type = ScriptyValueType::NONETYPE;
+    return result;
+}
+
+/* Undefined Value Type (usually when dividing by zero, and undefined variables)*/
+inline ScriptyValue UNDEFINED_()
+{
+    ScriptyValue result;
+    result.type = ScriptyValueType::UNDEFINED;
     return result;
 }
 
