@@ -1,4 +1,5 @@
 #include <string>
+#include <limits>
 #include "parser.hpp"
 
 // check errors each parseresult.
@@ -230,9 +231,9 @@ float Parser::evaluateAST(ASTNode* node) { // Traverse the nodes.
             return leftValue * rightValue; // Execute the multiplication
         }
         else if (binaryOp->getOperator().type == DIV) { // Check if the binary operation has a division operator
-            if (leftValue == 0 || rightValue == 0) // Check if we divide with zero
-            {
-                return 0; // Handle division with zero by returning zero
+            if (rightValue == 0) // Check if we divide with zero
+            {   
+                return std::numeric_limits<float>::infinity(); // Handle division with zero
             }
             
             return leftValue / rightValue; // Execute division if we don't divide with zero.
