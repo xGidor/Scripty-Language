@@ -104,7 +104,7 @@ Token Lexer::MakeNotEquals()
 		return tok;
 	}
 	Advance();
-	Error err = ExpectedCharacterError(pos_start, position.copy(), "");
+	Error err = ExpectedCharacterError(pos_start, position.copy(), ""); // Raise an error as we are not using ! for anything else at the moment
 	err.details = "Got unexpected character before '=', was expecting: '!' '<' '>'";
 	std::cout << err.as_string();
 	exit(false);
@@ -166,8 +166,8 @@ Position Position::advance(char current_char)
 	col++;
 
 	if (current_char == '\n') { // If we encounter a new line set the collumn to 0 and increase the line count.
-		ln++;
-		col = 0;
+		ln++; // Increase the line number
+		col = 0; // Set the character index to 0 due to a new line
 	}
 
 	return *this;
@@ -176,20 +176,20 @@ Position Position::advance(char current_char)
 // Lexer Advance Function, Advances to the next character in the text.
 void Lexer::Advance()
 {
-	position.advance(current_character);
+	position.advance(current_character); // also advance our position 
 	current_character = (position.idx < text.length()) ? text[position.idx] : '\0'; 
 }
 
 Token Lexer::MakeIdentifier()
 {
-	std::string id_str = "";
+	std::string id_str = ""; // make an empty identifier string to use later
 	Position pos_start = position.copy();
 	while (current_character != '\0' && (LETTERS_DIGITS.find(current_character) != std::string::npos || current_character == '_'))
 	{
-		id_str += current_character;
+		id_str += current_character; // add our identifier character to the id string
 		Advance();
 	}
-	std::string type = (KEYWORD.find(id_str) != KEYWORD.end()) ? KEYWORD_ : IDENTIFIER;
+	std::string type = (KEYWORD.find(id_str) != KEYWORD.end()) ? KEYWORD_ : IDENTIFIER; // check if the identifier string exists as a valid keyword or identifier in the langauge
 	Token tok = Token(type, id_str, pos_start);
 	return tok;
 }
