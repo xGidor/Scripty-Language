@@ -33,22 +33,91 @@ Lexer::Lexer(std::string fn_, std::string text_)
 	Advance(); // Advance to the 0th character in the text line.
 }
 
+// Function used to construct the equals tokens
 Token Lexer::MakeEquals()
 {
 	Token tok_type;
 	tok_type.type = EQUALS;
 	Position pos_start = position.copy();
-	Advance();
 	std::string tokstr = "=";
+	Advance();
 	if (current_character == '=') { // If next character is also equal sign then its an equals equals token.
 		Advance();
 		tok_type.type = EQUALS_EQUALS;
 		tokstr = "==";
 	}
-
 	Token tok = Token(tok_type.type, tokstr, pos_start); // Construct our Token class with our equals signs.
 	tok.pos_end = position.copy(); // Copy our current position to be the ending position.
 	return tok; // Return our token.
+}
+
+// Function used to construct the less than tokens
+Token Lexer::MakeLessThan()
+{
+	Token tok_type;
+	tok_type.type = LESS_THAN;
+	Position pos_start = position.copy();
+	std::string tokstr = "<";
+	Advance();
+	if (current_character == '=')
+	{
+		Advance();
+		tok_type.type = LT_EQUALS;
+		tokstr = "<=";
+	}
+	Token tok = Token(tok_type.type, tokstr, pos_start); // Construct our Token class with our equals signs.
+	tok.pos_end = position.copy(); // Copy our current position to be the ending position.
+	return tok; // Return our token.	
+}
+
+// Function used to construct the greater than tokens.
+Token Lexer::MakeGreaterThan()
+{
+	Token tok_type;
+	tok_type.type = GREATER_THAN;
+	Position pos_start = position.copy();
+	std::string tokstr = ">";
+	Advance();
+	if (current_character == '=')
+	{
+		Advance();
+		tok_type.type = GT_EQUALS;
+		tokstr = ">=";
+	}
+	Token tok = Token(tok_type.type, tokstr, pos_start); // Construct our Token class with our equals signs.
+	tok.pos_end = position.copy(); // Copy our current position to be the ending position.
+	return tok; // Return our token.	
+}
+
+// Function used to construct the not eqauls token
+Token Lexer::MakeNotEquals()
+{
+	Position pos_start = position.copy();
+	Token tok_type;
+	Advance();
+
+	if (current_character == '=')
+	{
+		Advance();
+		Token tok = Token(NOT_EQUALS, "!=", pos_start);
+		tok.pos_end = position.copy();
+		return tok;
+	}
+	Advance();
+	Error err = ExpectedCharacterError(pos_start, position.copy(), "");
+	err.details = "Got unexpected character before '=', was expecting: '!' '<' '>'";
+	std::cout << err.as_string();
+	exit(false);
+}
+
+void Lexer::SkipComments()
+{
+	Advance();
+	while (current_character != '\n')
+	{
+		Advance();
+	}
+	Advance();
 }
 
 // String token constructor
@@ -159,9 +228,13 @@ LexerResult Lexer::MakeTokens()
 	std::vector<Token> tokens;
 
 	while (current_character != '\0')
-	{
+	{	
 		if (current_character == ' '  || current_character == '\t') {
 			Advance(); // Advance the lexer;
+		}
+		else if (current_character == '#')
+		{
+			SkipComments();
 		}
 		else if (current_character == '\n') // automatic handling if its not there (later needs to be revised)
 		{
@@ -227,13 +300,30 @@ LexerResult Lexer::MakeTokens()
 			tokens.push_back(Token(RCURLY, "}", position));
 			Advance();
 		}
+		else if (current_character == '!')
+		{
+			tokens.push_back(MakeNotEquals());
+		}
 		else if (current_character == '=')
 		{
 			tokens.push_back(MakeEquals());
 		}
+		else if (current_character == '<')
+		{
+			tokens.push_back(MakeLessThan());
+		}
+		else if (current_character == '>')
+		{
+			tokens.push_back(MakeGreaterThan());
+		}
 		else if (current_character == '^')
 		{
 			tokens.push_back(Token(POW, "^", position));
+			Advance();
+		}
+		else if (current_character == ',')
+		{
+			tokens.push_back(Token(COMMA, ",", position));
 			Advance();
 		}
 		else // If the token is invalid raise error.

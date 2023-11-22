@@ -71,6 +71,13 @@ public:
         : Error(start, end, "Illegal Character", details) {}
 };
 
+// When the lexer identifies an illegal character throw this error.
+class ExpectedCharacterError : public Error {
+public:
+    ExpectedCharacterError(Position start, Position end, std::string details)
+        : Error(start, end, "Unexpected Character", details) {}
+};
+
 // When a syntax error happens fire this.
 class InvalidSyntaxError : public Error {
 public:

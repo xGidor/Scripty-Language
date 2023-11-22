@@ -38,6 +38,7 @@ const std::string LPAREN = "LEFT_PARENTHESIS";
 const std::string RPAREN = "RIGHT_PARENTHESIS";
 const std::string LCURLY = "LEFT_CURLYBRACKET";
 const std::string RCURLY = "RIGHT_CURLYBRACKET";
+const std::string COMMA = "COMMA";
 const std::string NEW_LINE = "NEW_LINE";
 const std::string TOKEN_ERROR = "INVALID_TOKEN";
 const std::string EOFILE = "END_OF_FILE";
@@ -50,11 +51,14 @@ const std::set<std::string> KEYWORD = {
 	"if",
 	"else",
 	"elif",
+	"or",
+	"and",
+	"class",
 	"function",
-	"break",
-	"return",
 	"for",
 	"while",
+	"break",
+	"return",
 	"continue"
 };
 
@@ -87,6 +91,10 @@ public:
 	Token MakeNumber();
 	Token MakeIdentifier();
 	Token MakeEquals();
+	Token MakeNotEquals();
+	Token MakeLessThan();
+	Token MakeGreaterThan();
+	void SkipComments();
 	Token makeString(char qt);
 };
 

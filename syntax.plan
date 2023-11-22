@@ -1,0 +1,93 @@
+# This is a comment
+
+# End of line symbol
+# ; - not needed but can be useful
+
+
+# Arithmetic operators
+# + - Addition
+# - - Subtraction
+# * - Multiplication
+# / - Division
+# ^ - Exponentiation
+
+# Comparison operators
+# == - Equals to
+# != - Not equals to
+# > - Greater than
+# < - Less than
+# >= - Greater than or equals to
+# <= - Less than or equals to
+
+# Logical operators
+# and - Logical and
+# or - Logical or
+# ! - Logical not
+
+# Assignment operators (Development)
+# = - Assign
+# += - Add and assign
+# -= - Subtract and assign
+# *= - Multiply and assign
+
+# Variable definition
+let a = 10 - automatic variable type assignment with let keyword
+string c = "hello world" - string value types
+float a = 10.3 - float types
+int a = 3 - int types
+
+# Conditional statement
+if (a == 2)
+{
+    Write(a)
+}
+
+# For loop
+for (int i = 0; i < x; i++)
+{
+
+}
+
+# While loop
+while(i == 4)
+{
+    Write(i)
+}
+
+# Function definition
+function add(int a, int b) {
+    Write(a + b)
+}
+
+print(add(10, 20)) # 30
+
+# Class definition
+class Person {
+    let name = "" # Automatic variable declaration inside class
+    int age = 0
+
+    # Constructor
+    function Person(string name, int age) 
+    {
+        this.name = name
+        this.age = age
+    }
+
+    string get_name() 
+    {
+        return this.name
+    }
+
+    int get_age() 
+    {
+        return this.age
+    }
+}
+
+# Include statement
+include sMath # to include the scripty math module
+include "submodule.scr" # to use a path
+
+# builtin functions
+
+# soon
