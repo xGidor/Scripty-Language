@@ -115,9 +115,13 @@ void Lexer::SkipComments()
 	Advance();
 	while (current_character != '\n')
 	{
+		if(current_character == '\0')
+		{
+			return;
+		}
 		Advance();
 	}
-	Advance();
+	//Advance();
 }
 
 // String token constructor
