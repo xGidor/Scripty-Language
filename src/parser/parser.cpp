@@ -51,7 +51,6 @@ ParseResult Parser::Atom() {
     {   
         Token varType = token;
         Eat(KEYWORD_);
-
         if (current_token.type == IDENTIFIER)
         {
             Token varName = current_token;
@@ -93,6 +92,33 @@ ParseResult Parser::Atom() {
             ASTNode* node_ = VarAssignNode::createVariableAssignNode(varName, expression);  
             ParseResult result = ParseResult(success_, node_);
             return result;
+        }
+        if (varType.value == "if")
+        {
+            if(current_token.type != LPAREN)
+            {
+            	//err
+            }
+           
+            Eat(LPAREN);
+            ASTNode* exprNode = Expr();
+            if(current.token.type != RPAREN)
+            {
+                   //err
+            }
+            Eat(RPAREN);
+            if(current_token.type  != LCURLY)
+            {
+            	//err
+            }
+            Eat(LCURLY);
+            ASTNode* statementNode = Expr();
+            if(current_token.type  != RCURLY)
+            {
+            	//err
+            }
+            Eat(RCURLY);
+            // err
         }
 
         ParseError err = VariableDeclarationError(varType, current_token, "Got an unexpected token: ", "an Identifier");
