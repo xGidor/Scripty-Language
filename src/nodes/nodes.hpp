@@ -24,6 +24,7 @@ enum ASTNodeType {
     BINARY_OP_NODE,
     VAR_ASSIGN_NODE,
     VAR_ACCESS_NODE,
+    IF_NODE,
     // Add other node types as needed
 };
 
@@ -56,6 +57,31 @@ public:
     }
 
     VarAccessNode(Token tok) : ASTNode(VAR_ACCESS_NODE), var_name_token(tok) {}
+};
+
+class IfNode : public ASTNode {
+public:
+    ASTNode* condition;
+    ASTNode* true_branch;
+    ASTNode* false_branch;
+
+    json serialize() const override {
+        json j;
+        j["type"] = "If";
+        j["condition"] = condition->serialize();
+        j["true_branch"] = true_branch->serialize();
+        if (false_branch != nullptr) {
+            j["false_branch"] = false_branch->serialize();
+        }
+        return j;
+    }
+
+    static IfNode* createIfNode(ASTNode* cond, ASTNode* trueBranch, ASTNode* falseBranch = nullptr) {
+        return new IfNode(cond, trueBranch, falseBranch);
+    }
+
+    IfNode(ASTNode* cond, ASTNode* trueBranch, ASTNode* falseBranch = nullptr)
+        : ASTNode(IF_NODE), condition(cond), true_branch(trueBranch), false_branch(falseBranch) {}
 };
 
 class VarAssignNode : public ASTNode {

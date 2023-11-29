@@ -51,11 +51,38 @@ ParseResult Parser::Atom() {
     {   
         Token varType = token;
         Eat(KEYWORD_);
+        if (varType.value == "if")
+        {
+            if(current_token.type != LPAREN)
+            {
+                //err
+            }
+        
+            Eat(LPAREN);
+            ASTNode* exprNode = Expr().node;
+            if(current_token.type != RPAREN)
+            {
+                //err
+            }
+            Eat(RPAREN);
+            if(current_token.type  != LCURLY)
+            {
+                //err
+            }
+            Eat(LCURLY);
+            ASTNode* statementNode = Expr().node;
+            if(current_token.type  != RCURLY)
+            {
+                //err
+            }
+            Eat(RCURLY);
+
+        }
         if (current_token.type == IDENTIFIER)
         {
             Token varName = current_token;
             Eat(IDENTIFIER);
-            if (current_token.type != EQUALS)
+            if (current_token.type != EQUALS && current_token.type != EQUALS_EQUALS)
             {
                 if (current_token.type == NEW_LINE || current_token.type == EOFILE)
                 {   
@@ -71,14 +98,14 @@ ParseResult Parser::Atom() {
                     ParseResult result = ParseResult(success_, node_);
                     return result;
                 }
-                ParseError err = VariableDeclarationError(varName, current_token, "Got an unexpected token at: '", "'=' or ';'");
+                ParseError err = VariableDeclarationError(varName, current_token, "Got an unexpected token at: '", "'=', '==' or ';'");
                 err.details = "Got an unexpected token at: '" + err.token_at.type + ":" + err.token_at.value + "', after " + err.token_bef.type + ":" + err.token_bef.value + "'\n";
                 err.details += "Was expecting: " + err.expected + "\n"; 
                 ParseResult result = ParseResult(error_, err);
                 return result;
             }
             Token currentEq = current_token;
-            Eat(EQUALS);
+            Eat(currentEq.type);
             if (current_token.type != INT && current_token.type != FLOAT && current_token.type != STRING && current_token.type != EOFILE && current_token.type != IDENTIFIER)
             {
                 ParseError err = VariableDeclarationError(currentEq, current_token, "Got an unexpected value type: ", "value types: integer, string, float or a variable");
@@ -93,33 +120,6 @@ ParseResult Parser::Atom() {
             ParseResult result = ParseResult(success_, node_);
             return result;
         }
-        if (varType.value == "if")
-        {
-            if(current_token.type != LPAREN)
-            {
-            	//err
-            }
-           
-            Eat(LPAREN);
-            ASTNode* exprNode = Expr();
-            if(current.token.type != RPAREN)
-            {
-                   //err
-            }
-            Eat(RPAREN);
-            if(current_token.type  != LCURLY)
-            {
-            	//err
-            }
-            Eat(LCURLY);
-            ASTNode* statementNode = Expr();
-            if(current_token.type  != RCURLY)
-            {
-            	//err
-            }
-            Eat(RCURLY);
-            // err
-        }
 
         ParseError err = VariableDeclarationError(varType, current_token, "Got an unexpected token: ", "an Identifier");
         err.details = "Got an unexpected token: '" + err.token_at.type + ":" + err.token_at.value + "'\n";
@@ -130,7 +130,7 @@ ParseResult Parser::Atom() {
     } else if (token.type == IDENTIFIER) {
         Token varName_ = token;
         Eat(IDENTIFIER);
-        if (current_token.type != EQUALS)
+        if (current_token.type != EQUALS && current_token.type != EQUALS_EQUALS)
         {
             if (current_token.type == NEW_LINE || current_token.type == EOFILE)
             {
@@ -138,14 +138,14 @@ ParseResult Parser::Atom() {
                 ParseResult result = ParseResult(success_, node_);
                 return result;
             }
-            ParseError err = VariableDeclarationError(varName_, current_token, "Got an unexpected token: ", "'=' or ';'");
+            ParseError err = VariableDeclarationError(varName_, current_token, "Got an unexpected token: ", "'=', '==' or ';'");
             err.details = "Got an unexpected token at: '" + err.token_at.type + ":" + err.token_at.value + "', after " + err.token_bef.type + ":" + err.token_bef.value + "'\n";
             err.details += "Was expecting: " + err.expected + "\n"; 
             ParseResult result = ParseResult(error_, err);
             return result;
         }
         Token currentEq = current_token;
-        Eat(EQUALS);
+        Eat(currentEq.type);
         if (current_token.type != INT && current_token.type != FLOAT && current_token.type != STRING && current_token.type != EOFILE && current_token.type != IDENTIFIER)
         {
             ParseError err = VariableDeclarationError(currentEq, current_token, "Got an unexpected value type:", "value types: integer, string, float or an identifier");
