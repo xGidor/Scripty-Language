@@ -43,8 +43,8 @@ Token Parser::Get_Next_Token()
     token_index++; // Increase the token index so we can keep track of our position in the list.
     return token_list[token_index]; // Return the current token at our position.
 }
-
 ParseResult Parser::Atom() {
+
     Token token = current_token; // Set the local token to the current token.
 
     if (token.type == KEYWORD_)
@@ -52,8 +52,9 @@ ParseResult Parser::Atom() {
         Token varType = token;
         Eat(KEYWORD_);
         if (varType.value == "if")
-        {
-            if(current_token.type != LPAREN)
+        {           
+            Token currentEq = current_token;
+            if(currentEq.type != LPAREN)
             {
                 //err
             }
@@ -65,18 +66,19 @@ ParseResult Parser::Atom() {
                 //err
             }
             Eat(RPAREN);
-            if(current_token.type  != LCURLY)
+            ASTNode* statementNode = nullptr;
+            if (current_token.type == LCURLY)
             {
-                //err
+                Eat(LCURLY);
+                if (current_token.type != RCURLY)
+                {
+                    statementNode = Expr().node; // Parse statements within the if-block
+                }
+                Eat(RCURLY);
             }
-            Eat(LCURLY);
-            ASTNode* statementNode = Expr().node;
-            if(current_token.type  != RCURLY)
-            {
-                //err
-            }
-            Eat(RCURLY);
-
+            ASTNode* node_ = IfNode::createIfNode(exprNode, statementNode, nullptr);
+            ParseResult result = ParseResult(success_, node_);
+            return result;
         }
         if (current_token.type == IDENTIFIER)
         {
@@ -180,6 +182,12 @@ ParseResult Parser::Atom() {
         ParseResult result = ParseResult(success_, node);
         return result;
     }
+    if (token.type == EOFILE)
+    {
+        Eat(EOFILE);
+        exit(false);
+    }
+    
     // Handle other cases or raise an error for invalid input.
     ParseError err = UnknownParsingError(current_token, Token("None", "None", lex.position), "Got unexpected token", "'Variable Declaration', 'Variable Access', 'integer', 'float' or a 'string'");
     err.details += "Was expecting: " + err.expected + "\n"; 
